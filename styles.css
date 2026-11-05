@@ -852,14 +852,15 @@ main { padding: 16px var(--pad) 48px; }
     position: sticky;
     top: var(--mast-h, 57px);
     z-index: 5;
-    grid-template-columns: clamp(76px, 22vw, 104px) 1fr;
+    grid-template-columns: clamp(92px, 27vw, 124px) 1fr;
     gap: 14px;
     padding: 12px 14px;
     /* Paspartú del color del fondo: tapa lo que pasa por los lados y por debajo de la tarjeta */
     box-shadow: 0 0 0 var(--pad) var(--ground);
   }
 
-  .panel--combinar .silhouette { max-height: 176px; }
+  .panel--combinar .figure { display: flex; justify-content: center; }
+  .panel--combinar .silhouette { width: 100%; max-height: 224px; }
   .panel--combinar .stage__info { max-width: 460px; }
   .stage__name { font-size: clamp(1.625rem, 7.5vw, 2.25rem); }
   .stage__pair { display: none; }   /* las bandas Arriba / Abajo ya nombran la pareja */
@@ -869,17 +870,22 @@ main { padding: 16px var(--pad) 48px; }
   .stage__verdict .link { min-height: 32px; }
 
   .stage__actions {
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 6px;
     margin-top: 4px;
   }
 
   .stage__actions .button {
+    flex: 1 1 auto;
+    width: auto;
     justify-content: center;
     margin-top: 0;
     padding: 0 8px;
-    gap: 6px;
+    gap: 5px;
+    white-space: nowrap;
   }
+
+  .stage__actions .button svg { width: 16px; height: 16px; }
 
   .stage__actions .extra {
     position: absolute;
