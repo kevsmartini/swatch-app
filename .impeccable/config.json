@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-05T20:57:25.799Z",
+        "reason": "brief-pinned: the user's brief asks for 'fondo hueso' (bone background)"
+      }
+    ]
+  }
+}

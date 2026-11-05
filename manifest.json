@@ -1,0 +1,20 @@
+{
+  "name": "Swatch · Combina los colores de tu ropa",
+  "short_name": "Swatch",
+  "description": "Elige el color de una prenda y descubre con qué combinarlo, empezando por tus clásicos.",
+  "lang": "es",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEE7DA",
+  "theme_color": "#EEE7DA",
+  "categories": ["lifestyle", "shopping"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

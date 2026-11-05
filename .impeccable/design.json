@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-05T21:10:00Z",
+  "title": "Design System: Swatch",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Bone Card",
+        "canonical": "oklch(93.0% 0.019 83)",
+        "tonalRamp": [
+          "#0D0B07",
+          "#28251E",
+          "#464139",
+          "#666156",
+          "#878277",
+          "#AAA49B",
+          "#CDC9C1",
+          "#F1EEE8"
+        ]
+      },
+      "stock": {
+        "role": "neutral",
+        "displayName": "Light Card Stock",
+        "canonical": "oklch(96.8% 0.011 85)",
+        "tonalRamp": [
+          "#0C0B09",
+          "#272521",
+          "#44423D",
+          "#64615B",
+          "#85827B",
+          "#A8A59F",
+          "#CBC9C4",
+          "#F0EEEA"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Sepia Printing Ink",
+        "canonical": "oklch(26.6% 0.012 56)",
+        "tonalRamp": [
+          "#0D0B09",
+          "#282422",
+          "#46413D",
+          "#66605B",
+          "#88817C",
+          "#AAA4A0",
+          "#CDC8C5",
+          "#F2EDEB"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Faded Ink",
+        "canonical": "oklch(48.8% 0.027 65)",
+        "tonalRamp": [
+          "#0F0A06",
+          "#2B231C",
+          "#4A4036",
+          "#6C5F53",
+          "#8D8073",
+          "#AFA398",
+          "#D1C7BE",
+          "#F5EDE5"
+        ]
+      },
+      "gilt": {
+        "role": "secondary",
+        "displayName": "Printed Gilt",
+        "canonical": "oklch(49.3% 0.091 84)",
+        "tonalRamp": [
+          "#140900",
+          "#322200",
+          "#543E0B",
+          "#785C20",
+          "#9B7E43",
+          "#BBA271",
+          "#DBC79F",
+          "#FDEDCD"
+        ]
+      },
+      "mannequin": {
+        "role": "neutral",
+        "displayName": "Mannequin",
+        "canonical": "oklch(87.1% 0.024 80)",
+        "tonalRamp": [
+          "#0E0B06",
+          "#29241D",
+          "#474137",
+          "#686053",
+          "#8A8173",
+          "#ABA498",
+          "#CFC8BE",
+          "#F3EEE6"
+        ]
+      },
+      "mannequin-2": {
+        "role": "neutral",
+        "displayName": "Mannequin Shadow",
+        "canonical": "oklch(75.0% 0.032 79)",
+        "tonalRamp": [
+          "#0F0A05",
+          "#2A241A",
+          "#494133",
+          "#6A604F",
+          "#8C816F",
+          "#AEA494",
+          "#D0C8BB",
+          "#F4EDE3"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline Rule",
+        "canonical": "rgba(42, 36, 32, 0.16)",
+        "tonalRamp": [
+          "#0D0B09",
+          "#282422",
+          "#46413D",
+          "#66605B",
+          "#88817C",
+          "#AAA4A0",
+          "#CDC8C5",
+          "#F2EDEB"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "rgba(42, 36, 32, 0.32)",
+        "tonalRamp": [
+          "#0D0B09",
+          "#282422",
+          "#46413D",
+          "#66605B",
+          "#88817C",
+          "#AAA4A0",
+          "#CDC8C5",
+          "#F2EDEB"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The chosen colour's name on the stage; one per screen."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "\"Swatch\" in the masthead."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Block titles."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Ordinal of each classic row."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Suggestion group titles; 500 for tabs and classic names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, tabular figures, max 60ch."
+      },
+      "hint": {
+        "displayName": "Hint",
+        "purpose": "Secondary lines under titles, verdict, free-colour result."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Band names and Arriba/Abajo bands; 0.75rem in the shade card."
+      },
+      "shade-number": {
+        "displayName": "Shade Number",
+        "purpose": "Nº printed on each band in its contrasting ink."
+      }
+    },
+    "shadows": [
+      {
+        "name": "pale-filete",
+        "value": "inset 0 0 0 1px var(--rule)",
+        "purpose": "Printed hairline inside pale swatches so they don't vanish into the stock. Not elevation."
+      },
+      {
+        "name": "selected-ring",
+        "value": "inset 0 0 0 3px var(--c), inset 0 0 0 4.5px var(--on)",
+        "purpose": "Printed ring marking the selected band. Not elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for all state transitions."
+      },
+      {
+        "name": "flip-close",
+        "value": "transform 180ms cubic-bezier(0.5, 0, 0.75, 0)",
+        "purpose": "Garments close on their vertical axis during Invertir."
+      },
+      {
+        "name": "flip-open",
+        "value": "transform 260ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Garments reopen swapped."
+      },
+      {
+        "name": "colour-fade",
+        "value": "320ms ease-out",
+        "purpose": "Garment fills, Arriba/Abajo bands and the 60-30-10 bar cross-fade."
+      },
+      {
+        "name": "tab-underline",
+        "value": "transform 240ms ease-out",
+        "purpose": "Selected tab underline scales in."
+      },
+      {
+        "name": "button-fill",
+        "value": "background-color 160ms, color 160ms",
+        "purpose": "Outline button and classic row hover."
+      },
+      {
+        "name": "strip-in",
+        "value": "420ms ease-out, translateX(-6px), 30ms stagger capped at 120ms",
+        "purpose": "Suggestion strips enter."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "1ms",
+        "purpose": "All animation and transition durations collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "card-label-column",
+        "value": "560px"
+      },
+      {
+        "name": "wide-two-column",
+        "value": "900px"
+      },
+      {
+        "name": "max-content",
+        "value": "1180px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The single action style (Invertir): ink outline that fills solid on hover.",
+      "html": "<button class=\"ds-button\" type=\"button\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M6 3v13m0 0-3-3m3 3 3-3M14 17V4m0 0-3 3m3-3 3 3\"/></svg>Invertir arriba y abajo</button>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border:1px solid var(--ink);border-radius:0;background:transparent;color:var(--ink);font:500 0.875rem/1.5 var(--sans);cursor:pointer;transition:background-color 160ms,color 160ms;}.ds-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}.ds-button:hover{background:var(--ink);color:var(--stock);}.ds-button:active{transform:translateY(1px);}.ds-button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
+      "name": "Masthead Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Wordmark plus bare text tabs; the selected tab draws an ink underline.",
+      "html": "<header class=\"ds-masthead\"><span class=\"ds-wordmark\">Swatch</span><nav class=\"ds-tabs\"><button class=\"ds-tab\" aria-selected=\"true\">Combinar</button><button class=\"ds-tab\" aria-selected=\"false\">Mis clásicos</button></nav></header>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-masthead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 20px 12px;background:var(--ground);border-bottom:1px solid var(--rule);}.ds-wordmark{font:400 1.75rem/1 var(--serif);letter-spacing:-0.01em;color:var(--ink);}.ds-tabs{display:flex;gap:4px;}.ds-tab{position:relative;min-height:44px;padding:0 10px;border:0;background:none;font:500 0.9375rem/1.5 var(--sans);color:var(--ink-2);cursor:pointer;}.ds-tab::after{content:\"\";position:absolute;left:10px;right:10px;bottom:8px;height:1.5px;background:var(--ink);transform:scaleX(0);transition:transform 240ms var(--ease-out);}.ds-tab[aria-selected=\"true\"],.ds-tab:hover{color:var(--ink);}.ds-tab[aria-selected=\"true\"]::after{transform:scaleX(1);}.ds-tab:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
+      "name": "Colour Band",
+      "kind": "custom",
+      "refersTo": "band",
+      "description": "The atom of the card: flat colour field with its shade number printed on it, name below; selected shows the inset ring, pale gets a filete.",
+      "html": "<div class=\"ds-strip\"><button class=\"ds-band\" style=\"--c:#1F2A44;--on:#F8F4EC\" aria-pressed=\"true\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">03</span></span><span class=\"ds-band__name\">Azul marino</span></button><button class=\"ds-band\" style=\"--c:#C19A6B;--on:#2A2420\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">13</span></span><span class=\"ds-band__name\">Camel</span></button><button class=\"ds-band ds-is-pale\" style=\"--c:#F6F1E3;--on:#2A2420\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">16</span><svg class=\"ds-band__owned\" viewBox=\"0 0 20 20\"><path d=\"M4 10.5l4 4 8-9\"/></svg></span><span class=\"ds-band__name\">Marfil</span></button></div>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:12px 4px;padding:16px;background:var(--stock);}.ds-band{display:block;width:100%;padding:0;border:0;background:none;text-align:left;cursor:pointer;font-family:var(--sans);font-variant-numeric:tabular-nums;}.ds-band__field{position:relative;display:block;height:56px;background:var(--c);}.ds-is-pale .ds-band__field{box-shadow:inset 0 0 0 1px var(--rule);}.ds-band__no{position:absolute;left:6px;bottom:4px;font-size:0.6875rem;font-weight:500;line-height:1;color:var(--on);}.ds-band__name{display:block;margin-top:6px;font-size:0.8125rem;line-height:1.25;color:var(--ink);}.ds-band:hover .ds-band__name{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}.ds-band[aria-pressed=\"true\"] .ds-band__field{box-shadow:inset 0 0 0 3px var(--c),inset 0 0 0 4.5px var(--on);}.ds-band[aria-pressed=\"true\"] .ds-band__no{left:10px;bottom:9px;}.ds-band[aria-pressed=\"true\"] .ds-band__name{font-weight:600;}.ds-band__owned{position:absolute;top:5px;right:5px;width:12px;height:12px;fill:none;stroke:var(--on);stroke-width:2;}.ds-band:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
+      "name": "Arriba / Abajo Bands",
+      "kind": "custom",
+      "refersTo": "tab-band",
+      "description": "Current top and bottom garment printed as full-width colour bands under the stage name.",
+      "html": "<div class=\"ds-tabbands\"><p class=\"ds-tab-band\" style=\"--c:#1F2A44;--on:#F8F4EC\"><span>Arriba</span><strong>Nº 03 · Azul marino</strong></p><p class=\"ds-tab-band\" style=\"--c:#C19A6B;--on:#2A2420\"><span>Abajo</span><strong>Nº 13 · Camel</strong></p></div>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-tabbands{display:grid;width:240px;}.ds-tab-band{margin:0;display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:9px 10px 8px;background:var(--c);color:var(--on);font:400 0.8125rem/1.2 var(--sans);font-variant-numeric:tabular-nums;}.ds-tab-band strong{font-weight:600;text-align:right;}"
+    },
+    {
+      "name": "Suggestion Group",
+      "kind": "custom",
+      "refersTo": "band",
+      "description": "Group heading over a hairline rule; the classics group is titled in gilt with a drawn star.",
+      "html": "<section class=\"ds-group ds-group--classics\"><div class=\"ds-group__head\"><h3 class=\"ds-group__title\"><svg class=\"ds-mark\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 1.6l2.47 5.47 5.96.62-4.45 4.02 1.25 5.87L10 14.6l-5.23 2.98 1.25-5.87L1.57 7.69l5.96-.62z\"/></svg>Tus clásicos</h3></div><div class=\"ds-group__strip\"><span style=\"--c:#C19A6B\"></span><span style=\"--c:#F0E6D2\"></span><span style=\"--c:#9EA1A5\"></span></div></section><section class=\"ds-group\"><div class=\"ds-group__head\"><h3 class=\"ds-group__title\">Complementarios</h3><span class=\"ds-group__why\">Al otro lado del círculo</span></div></section>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-group{font-family:var(--sans);color:var(--ink);margin-bottom:22px;}.ds-group__head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:6px;margin-bottom:10px;border-bottom:1px solid var(--rule);}.ds-group__title{margin:0;font-size:0.9375rem;font-weight:600;}.ds-group--classics .ds-group__title{color:var(--gilt);}.ds-mark{display:inline-block;width:0.95em;height:0.95em;margin-right:0.3em;vertical-align:-0.1em;fill:currentColor;}.ds-group__why{font-size:0.8125rem;color:var(--ink-2);text-align:right;}.ds-group__strip{display:grid;grid-template-columns:repeat(3,76px);gap:4px;}.ds-group__strip span{height:72px;background:var(--c);}"
+    },
+    {
+      "name": "Stage Card",
+      "kind": "card",
+      "refersTo": "card-stock",
+      "description": "Stock panel on bone: display serif colour name, the pair line, and the gilt classic verdict.",
+      "html": "<section class=\"ds-stage\"><h2 class=\"ds-stage__name\">Azul marino</h2><p class=\"ds-stage__pair\">con <strong>Camel</strong></p><p class=\"ds-stage__verdict\"><svg class=\"ds-mark\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 1.6l2.47 5.47 5.96.62-4.45 4.02 1.25 5.87L10 14.6l-5.23 2.98 1.25-5.87L1.57 7.69l5.96-.62z\"/></svg>Uno de tus clásicos</p></section>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-stage{padding:20px 24px;background:var(--stock);border-radius:0;color:var(--ink);font-family:var(--sans);}.ds-stage__name{margin:0;font:400 clamp(2.125rem,10vw,3.25rem)/0.98 var(--serif);letter-spacing:-0.02em;text-wrap:balance;}.ds-stage__pair{margin:8px 0 0;font-size:1rem;color:var(--ink-2);}.ds-stage__pair strong{color:var(--ink);font-weight:600;}.ds-stage__verdict{margin:12px 0 0;font-size:0.875rem;font-weight:600;color:var(--gilt);}.ds-mark{display:inline-block;width:0.95em;height:0.95em;margin-right:0.3em;vertical-align:-0.1em;fill:currentColor;}"
+    },
+    {
+      "name": "Classic Row",
+      "kind": "card",
+      "refersTo": "classic-row",
+      "description": "A saved pairing: serif ordinal, the pair as equal bands, its name below.",
+      "html": "<button class=\"ds-classic\" type=\"button\"><span class=\"ds-classic__no\">1</span><span class=\"ds-classic__bands\"><span style=\"--c:#1F2A44\"></span><span style=\"--c:#C19A6B\"></span></span><span class=\"ds-classic__name\">Azul marino + Camel</span></button>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-classic{display:grid;grid-template-columns:2.25rem 1fr;align-items:center;gap:12px;width:320px;padding:12px 18px 12px 12px;border:0;border-radius:0;background:var(--stock);text-align:left;cursor:pointer;font-family:var(--sans);color:var(--ink);}.ds-classic__no{font:400 1.25rem/1 var(--serif);color:var(--ink-2);text-align:center;}.ds-classic__bands{display:flex;gap:4px;height:48px;}.ds-classic__bands span{flex:1;background:var(--c);}.ds-classic__name{grid-column:2;margin-top:6px;font-size:0.9375rem;font-weight:500;}.ds-classic:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
+      "name": "Free Colour Picker",
+      "kind": "input",
+      "refersTo": "band",
+      "description": "Native colour input shaped as a square band with a filete, labelled below.",
+      "html": "<label class=\"ds-free\"><input type=\"color\" value=\"#1F2A44\"><span>Color libre</span></label>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-free{display:grid;justify-items:start;gap:6px;cursor:pointer;font:600 0.8125rem/1.25 var(--sans);color:var(--ink);}.ds-free input{width:76px;height:52px;padding:0;border:0;background:none;cursor:pointer;}.ds-free input::-webkit-color-swatch-wrapper{padding:0;}.ds-free input::-webkit-color-swatch{border:0;border-radius:0;box-shadow:inset 0 0 0 1px var(--rule);}.ds-free input::-moz-color-swatch{border:0;border-radius:0;}.ds-free input:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Mercer's Shade Card",
+    "overview": "Swatch is printed, not rendered. The screen is a sheet of bone card stock with lighter card panels laid on it, printed in one sepia ink, with a single gilt reserved for the owner's classics. Every garment colour is a flat, square-cornered band with its shade number (Nº 01 to 18) printed in small tabular figures on the band itself, filed by family the way a thread card is. Choosing a colour pulls its companions into matching strips; the colour field is the control, and nothing around it is allowed to tint, shade or frame it.\n\nDensity is that of a reference card: tight 4px gutters between bands, generous 40px breathing between blocks, hierarchy carried by type scale alone (a large Gloock serif against small Figtree UI text) rather than by weight, colour or chrome. State is a printed mark inside the cell, never a lift or glow: a ring for the selected band, a ✓ stroke for owned colours, a ★ in gilt for a classic. Motion is mechanical and short: an underline that draws, strips that slide 6px into place, and a real vertical-axis flip when top and bottom trade places on the figure.\n\nThe world rejects the category default of round colour dots on white cards with drop shadows and a bottom sheet.",
+    "keyCharacteristics": [
+      "Bone ground, lighter stock panels, one sepia ink, one gilt.",
+      "Flat bands, zero radius, no drop shadows; inset hairlines only where a pale swatch would vanish.",
+      "Shade numbers printed on the band in the band's own contrasting ink.",
+      "Serif display for names and headings, sans for everything operable.",
+      "State drawn as printed marks inside the cell."
+    ],
+    "rules": [
+      {
+        "name": "The Colour Is Content Rule",
+        "body": "Garment colours appear only inside bands, strips, the silhouette and the 60-30-10 bar. The chrome is ground, stock, ink and rule; nothing else.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Gilt Rule",
+        "body": "Gilt marks the owner's own classics and nothing else. If it is not a classic, it is printed in ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Printed-On Ink Rule",
+        "body": "Text on a band is set in whichever of ink or stock has the higher contrast against that band, computed per colour (the `--on` value). Never pick band text colour by hand.",
+        "section": "colors"
+      },
+      {
+        "name": "The Scale Not Weight Rule",
+        "body": "Hierarchy comes from the jump between serif display sizes and small sans labels. Serif text is always weight 400; sans never goes above 600.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number is tabular (set on body), so shade numbers and ordinals align like a printed index.",
+        "section": "typography"
+      },
+      {
+        "name": "The Band Gap Rule",
+        "body": "Bands that belong together sit 4px apart, never more; space larger than that means a different group.",
+        "section": "layout"
+      },
+      {
+        "name": "The Printed Mark Rule",
+        "body": "Depth and state are printed inside the cell (inset hairline, inset ring, stroke mark), never cast outside it. If it lifts, glows or casts, it is not this world.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Card Rule",
+        "body": "Radius is 0 everywhere in the interface. A round swatch is the category default this world refuses.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do print every colour as a flat, square band with its shade number on it, and always set its name next to it.",
+      "Do compute band ink per colour (ink or stock, whichever contrasts more) and add the inset 1px rule filete when a swatch is pale.",
+      "Do show state as a mark inside the cell: the inset ring for selected, a stroked ✓ for owned, a gilt ★ for a classic.",
+      "Do keep bands in a group 4px apart and separate blocks by 40px.",
+      "Do keep touch targets at least 44px tall.",
+      "Do honour reduced motion: every transition and animation collapses to 1ms."
+    ],
+    "donts": [
+      "Don't round any corner of the interface (radius 0px everywhere).",
+      "Don't cast drop shadows or lift surfaces; inset printed lines are the only shadow syntax.",
+      "Don't use gilt for anything but the owner's classics.",
+      "Don't put garment colours into chrome (backgrounds, borders, text).",
+      "Don't set a serif in anything but weight 400, or use emoji or font glyphs for marks; ★, ✓ and icons are inline SVG."
+    ]
+  }
+}

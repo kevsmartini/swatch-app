@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Swatch · Combina los colores de tu ropa</title>
+  <meta name="description" content="Elige el color de una prenda y descubre con qué combinarlo, empezando por tus clásicos.">
+  <meta name="theme-color" content="#EEE7DA">
+  <meta name="color-scheme" content="light">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Swatch">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preload" href="fonts/gloock-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <h1 class="wordmark">Swatch</h1>
+    <nav class="tabs" role="tablist" aria-label="Secciones">
+      <button class="tab" role="tab" id="tab-combinar" aria-controls="panel-combinar" aria-selected="true">Combinar</button>
+      <button class="tab" role="tab" id="tab-clasicos" aria-controls="panel-clasicos" aria-selected="false" tabindex="-1">Mis clásicos</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="panel-combinar" class="panel panel--combinar" role="tabpanel" aria-labelledby="tab-combinar">
+
+      <section class="stage" aria-labelledby="stage-name">
+        <figure class="figure" aria-hidden="true">
+          <svg class="silhouette" viewBox="0 0 200 400" role="img">
+            <g class="body">
+              <ellipse cx="100" cy="36" rx="17" ry="21"/>
+              <path d="M92 52h16v18H92z"/>
+              <ellipse cx="34" cy="198" rx="8" ry="10"/>
+              <ellipse cx="166" cy="198" rx="8" ry="10"/>
+              <path d="M58 368h34l2 14H52a6 6 0 0 1 6-14zM108 368h34a6 6 0 0 1 6 14h-42z" class="shoes"/>
+            </g>
+            <g class="garment garment--bottom">
+              <path id="garment-bottom" d="M64 196h72l8 172h-34l-10-128-10 128H56z"/>
+            </g>
+            <g class="garment garment--top">
+              <path id="garment-top" d="M80 64c6 7 34 7 40 0l26 10c9 3 14 9 15 19l12 96-21 3-12-78v94H60v-94l-12 78-21-3 12-96c1-10 6-16 15-19z"/>
+            </g>
+          </svg>
+        </figure>
+
+        <div class="stage__info">
+          <h2 class="stage__name" id="stage-name">Azul marino</h2>
+          <p class="stage__pair" id="stage-pair">con <strong>Camel</strong></p>
+          <div class="stage__tabs">
+            <p class="tab-band" id="tab-top"><span class="tab-band__pos">Arriba</span><span class="tab-band__name" id="tab-top-name">Nº 03 · Azul marino</span></p>
+            <p class="tab-band" id="tab-bottom"><span class="tab-band__pos">Abajo</span><span class="tab-band__name" id="tab-bottom-name">Nº 13 · Camel</span></p>
+          </div>
+          <p class="stage__verdict" id="stage-verdict" aria-live="polite"></p>
+          <button class="button" id="swap" type="button">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3v13m0 0-3-3m3 3 3-3M14 17V4m0 0-3 3m3-3 3 3"/></svg>
+            Invertir arriba y abajo
+          </button>
+        </div>
+      </section>
+
+      <div class="workbench">
+        <section class="block" aria-labelledby="sug-title">
+          <div class="block__head">
+            <h2 class="block__title" id="sug-title">Combina con <span id="sug-base">Azul marino</span></h2>
+            <p class="block__hint">Toca un color para probarlo en la figura.</p>
+          </div>
+          <div id="suggestions" class="suggestions"></div>
+        </section>
+
+        <section class="block" aria-labelledby="carta-title">
+          <div class="block__head">
+            <h2 class="block__title" id="carta-title">La carta</h2>
+            <p class="block__hint">Elige el color de tu prenda.</p>
+          </div>
+          <div id="carta" class="carta"></div>
+
+          <div class="free">
+            <label class="free__picker" for="free-color">
+              <input type="color" id="free-color" value="#1F2A44">
+              <span class="free__label">Color libre</span>
+            </label>
+            <p class="free__result" id="free-result" aria-live="polite">¿Tu prenda no está en la carta? Elige su color y te digo a cuál se parece.</p>
+          </div>
+        </section>
+
+        <aside class="block rule" aria-labelledby="rule-title">
+          <h2 class="block__title" id="rule-title">La regla 60-30-10</h2>
+          <div class="rule__bar" aria-hidden="true">
+            <span id="rule-60"></span><span id="rule-30"></span><span id="rule-10"></span>
+          </div>
+          <p class="rule__text" id="rule-text">Reparte el conjunto: un 60 % para el color dominante, un 30 % para el secundario y un 10 % para un acento en zapatos, cinturón o bufanda.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="panel-clasicos" class="panel panel--clasicos" role="tabpanel" aria-labelledby="tab-clasicos" hidden>
+      <div class="block__head">
+        <h2 class="block__title">Mis clásicos</h2>
+        <p class="block__hint">Tus combinaciones de siempre. Toca una para verla en la figura.</p>
+      </div>
+      <ol id="classics" class="classics"></ol>
+    </section>
+  </main>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
