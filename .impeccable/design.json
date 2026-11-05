@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-05T21:10:00Z",
+  "generatedAt": "2026-11-05T23:30:00Z",
   "title": "Design System: Swatch",
   "extensions": {
     "colorMeta": {
@@ -138,6 +138,66 @@
           "#CDC8C5",
           "#F2EDEB"
         ]
+      },
+      "ink-press": {
+        "role": "primary",
+        "displayName": "Pressed Ink",
+        "canonical": "oklch(33.3% 0.017 56)",
+        "tonalRamp": [
+          "#0D0B09",
+          "#282422",
+          "#47413D",
+          "#685F59",
+          "#8A807A",
+          "#ABA39F",
+          "#CDC8C5",
+          "#F1EEEC"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Example Ink",
+        "canonical": "oklch(60.4% 0.025 67)",
+        "tonalRamp": [
+          "#0D0B08",
+          "#292420",
+          "#484039",
+          "#6A5F54",
+          "#8C8075",
+          "#ACA39A",
+          "#CEC8C2",
+          "#F1EEEA"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Field White",
+        "canonical": "oklch(99.4% 0.007 89)",
+        "tonalRamp": [
+          "#0B0B0A",
+          "#262523",
+          "#43423F",
+          "#63615D",
+          "#84827E",
+          "#A6A5A2",
+          "#CAC9C7",
+          "#EFEEED"
+        ]
+      },
+      "alert": {
+        "role": "tertiary",
+        "displayName": "Rust Alert",
+        "canonical": "oklch(43.8% 0.137 29)",
+        "tonalRamp": [
+          "#170504",
+          "#3D1814",
+          "#6A2C24",
+          "#9A4236",
+          "#C06456",
+          "#D89084",
+          "#EDBCB3",
+          "#FFE7E1"
+        ]
       }
     },
     "typographyMeta": {
@@ -171,11 +231,19 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Band names and Arriba/Abajo bands; 0.75rem in the shade card."
+        "purpose": "Band names, Arriba/Abajo bands, group notes, form field labels, the Quitar button."
       },
       "shade-number": {
         "displayName": "Shade Number",
-        "purpose": "Nº printed on each band in its contrasting ink."
+        "purpose": "Nº printed on each band in its contrasting ink; also the names of the picker's small bands."
+      },
+      "label-card": {
+        "displayName": "Card Label",
+        "purpose": "Band names inside the shade card (two lines reserved on phones); family labels at 600."
+      },
+      "input": {
+        "displayName": "Input",
+        "purpose": "Text typed into fields and selects; 1rem prevents iOS zoom."
       }
     },
     "shadows": [
@@ -188,6 +256,21 @@
         "name": "selected-ring",
         "value": "inset 0 0 0 3px var(--c), inset 0 0 0 4.5px var(--on)",
         "purpose": "Printed ring marking the selected band. Not elevation."
+      },
+      {
+        "name": "armario-frame",
+        "value": "inset 0 0 0 1.5px var(--ink)",
+        "purpose": "Frames the shade card while the wardrobe is being marked. Not elevation."
+      },
+      {
+        "name": "switch-track",
+        "value": "inset 0 0 0 1px var(--ink)",
+        "purpose": "Outline of the square switch track."
+      },
+      {
+        "name": "error-line",
+        "value": "inset 0 0 0 1px var(--alert)",
+        "purpose": "Doubles the rust border of an invalid text field."
       }
     ],
     "motion": [
@@ -219,7 +302,7 @@
       {
         "name": "button-fill",
         "value": "background-color 160ms, color 160ms",
-        "purpose": "Outline button and classic row hover."
+        "purpose": "Outline button, owned toggle, solid button and classic row hover."
       },
       {
         "name": "strip-in",
@@ -230,6 +313,21 @@
         "name": "reduced-motion",
         "value": "1ms",
         "purpose": "All animation and transition durations collapse under prefers-reduced-motion."
+      },
+      {
+        "name": "switch-thumb",
+        "value": "transform 220ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms",
+        "purpose": "Square switch thumb slides 18px; track fills ink over 200ms."
+      },
+      {
+        "name": "adder-plus",
+        "value": "transform 240ms cubic-bezier(0.16, 1, 0.3, 1), rotate(45deg)",
+        "purpose": "The adder's plus turns into a cross when the form opens."
+      },
+      {
+        "name": "confirm-window",
+        "value": "3500ms",
+        "purpose": "How long a two-tap confirm stays armed before disarming."
       }
     ],
     "breakpoints": [
@@ -257,6 +355,22 @@
       "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border:1px solid var(--ink);border-radius:0;background:transparent;color:var(--ink);font:500 0.875rem/1.5 var(--sans);cursor:pointer;transition:background-color 160ms,color 160ms;}.ds-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}.ds-button:hover{background:var(--ink);color:var(--stock);}.ds-button:active{transform:translateY(1px);}.ds-button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
     },
     {
+      "name": "Owned Toggle",
+      "kind": "button",
+      "refersTo": "button-toggle",
+      "description": "Lo tengo: the outline button with an empty hairline square that prints an ink ✓ only when pressed; never fills.",
+      "html": "<button class=\"ds-button ds-toggle\" type=\"button\" aria-pressed=\"false\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><rect x=\"2.5\" y=\"2.5\" width=\"15\" height=\"15\"/><path d=\"M6 10.5l3 3 5-6.5\"/></svg>Lo tengo</button> <button class=\"ds-button ds-toggle\" type=\"button\" aria-pressed=\"true\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><rect x=\"2.5\" y=\"2.5\" width=\"15\" height=\"15\"/><path d=\"M6 10.5l3 3 5-6.5\"/></svg>Lo tengo</button>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border:1px solid var(--ink);border-radius:0;background:transparent;color:var(--ink);font:500 0.875rem/1.5 var(--sans);cursor:pointer;transition:background-color 160ms,color 160ms;}.ds-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}.ds-button:hover{background:var(--ink);color:var(--stock);}.ds-button:active{transform:translateY(1px);}.ds-button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-toggle rect{stroke-width:1.25;}.ds-toggle path{opacity:0;stroke-width:2.25;}.ds-toggle[aria-pressed=\"true\"] path{opacity:1;}.ds-toggle[aria-pressed=\"true\"]{font-weight:600;}"
+    },
+    {
+      "name": "Solo Switch",
+      "kind": "custom",
+      "refersTo": "switch-track",
+      "description": "Square role=switch: ink-outlined track, square thumb; on fills the track ink and slides a stock thumb.",
+      "html": "<button class=\"ds-switch\" type=\"button\" role=\"switch\" aria-checked=\"false\"><span class=\"ds-switch__track\"><span class=\"ds-switch__thumb\"></span></span>Solo lo que tengo</button> <button class=\"ds-switch\" type=\"button\" role=\"switch\" aria-checked=\"true\"><span class=\"ds-switch__track\"><span class=\"ds-switch__thumb\"></span></span>Solo lo que tengo</button>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-switch{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0;border:0;background:none;font:500 0.875rem/1.5 var(--sans);color:var(--ink);cursor:pointer;}.ds-switch__track{position:relative;width:40px;height:22px;box-shadow:inset 0 0 0 1px var(--ink);transition:background-color 200ms var(--ease-out);}.ds-switch__thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;background:var(--ink);transition:transform 220ms var(--ease-out),background-color 200ms;}.ds-switch[aria-checked=\"true\"] .ds-switch__track{background:var(--ink);}.ds-switch[aria-checked=\"true\"] .ds-switch__thumb{transform:translateX(18px);background:var(--stock);}.ds-switch:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
       "name": "Masthead Tabs",
       "kind": "nav",
       "refersTo": "tab",
@@ -271,6 +385,14 @@
       "description": "The atom of the card: flat colour field with its shade number printed on it, name below; selected shows the inset ring, pale gets a filete.",
       "html": "<div class=\"ds-strip\"><button class=\"ds-band\" style=\"--c:#1F2A44;--on:#F8F4EC\" aria-pressed=\"true\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">03</span></span><span class=\"ds-band__name\">Azul marino</span></button><button class=\"ds-band\" style=\"--c:#C19A6B;--on:#2A2420\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">13</span></span><span class=\"ds-band__name\">Camel</span></button><button class=\"ds-band ds-is-pale\" style=\"--c:#F6F1E3;--on:#2A2420\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">16</span><svg class=\"ds-band__owned\" viewBox=\"0 0 20 20\"><path d=\"M4 10.5l4 4 8-9\"/></svg></span><span class=\"ds-band__name\">Marfil</span></button></div>",
       "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:12px 4px;padding:16px;background:var(--stock);}.ds-band{display:block;width:100%;padding:0;border:0;background:none;text-align:left;cursor:pointer;font-family:var(--sans);font-variant-numeric:tabular-nums;}.ds-band__field{position:relative;display:block;height:56px;background:var(--c);}.ds-is-pale .ds-band__field{box-shadow:inset 0 0 0 1px var(--rule);}.ds-band__no{position:absolute;left:6px;bottom:4px;font-size:0.6875rem;font-weight:500;line-height:1;color:var(--on);}.ds-band__name{display:block;margin-top:6px;font-size:0.8125rem;line-height:1.25;color:var(--ink);}.ds-band:hover .ds-band__name{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}.ds-band[aria-pressed=\"true\"] .ds-band__field{box-shadow:inset 0 0 0 3px var(--c),inset 0 0 0 4.5px var(--on);}.ds-band[aria-pressed=\"true\"] .ds-band__no{left:10px;bottom:9px;}.ds-band[aria-pressed=\"true\"] .ds-band__name{font-weight:600;}.ds-band__owned{position:absolute;top:5px;right:5px;width:12px;height:12px;fill:none;stroke:var(--on);stroke-width:2;}.ds-band:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
+      "name": "Armario Carta",
+      "kind": "custom",
+      "refersTo": "band-carta",
+      "description": "Marcar mi armario: the shade card framed in ink; owned bands carry a larger ✓ and no ring.",
+      "html": "<div class=\"ds-carta ds-is-armario\"><div class=\"ds-row\"><span class=\"ds-family\">Azules</span><div class=\"ds-cells\"><button class=\"ds-band\" style=\"--c:#1F2A44;--on:#F8F4EC\" aria-pressed=\"true\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">03</span><svg class=\"ds-band__owned\" viewBox=\"0 0 20 20\"><path d=\"M4 10.5l4 4 8-9\"/></svg></span><span class=\"ds-band__name\">Azul marino</span></button><button class=\"ds-band\" style=\"--c:#3F5F8A;--on:#F8F4EC\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">04</span></span><span class=\"ds-band__name\">Azul denim</span></button><button class=\"ds-band\" style=\"--c:#A9C6E0;--on:#2A2420\" aria-pressed=\"true\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">05</span><svg class=\"ds-band__owned\" viewBox=\"0 0 20 20\"><path d=\"M4 10.5l4 4 8-9\"/></svg></span><span class=\"ds-band__name\">Azul claro</span></button></div></div></div>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-band{display:block;width:100%;padding:0;border:0;background:none;text-align:left;cursor:pointer;font-family:var(--sans);font-variant-numeric:tabular-nums;}.ds-band__field{position:relative;display:block;height:52px;background:var(--c);}.ds-is-pale .ds-band__field{box-shadow:inset 0 0 0 1px var(--rule);}.ds-band__no{position:absolute;left:6px;bottom:4px;font-size:0.6875rem;font-weight:500;line-height:1;color:var(--on);}.ds-band__name{display:block;margin-top:6px;font-size:0.75rem;line-height:1.25;color:var(--ink);}.ds-band[aria-pressed=\"true\"] .ds-band__field{box-shadow:inset 0 0 0 3px var(--c),inset 0 0 0 4.5px var(--on);}.ds-band[aria-pressed=\"true\"] .ds-band__no{left:10px;bottom:9px;}.ds-band__owned{position:absolute;top:5px;right:5px;width:12px;height:12px;fill:none;stroke:var(--on);stroke-width:2;}.ds-band:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-carta{display:grid;gap:14px;width:360px;padding:16px 20px 18px;background:var(--stock);font-family:var(--sans);}.ds-row{display:grid;grid-template-columns:5.5rem 1fr;gap:4px;align-items:start;}.ds-family{padding-top:4px;font-size:0.75rem;font-weight:600;line-height:1.2;color:var(--ink-2);}.ds-cells{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 4px;}.ds-is-armario{box-shadow:inset 0 0 0 1.5px var(--ink);}.ds-is-armario .ds-band__owned{width:16px;height:16px;stroke-width:2.5;}.ds-is-armario .ds-band[aria-pressed=\"true\"] .ds-band__field{box-shadow:none;}.ds-is-armario .ds-band[aria-pressed=\"true\"] .ds-band__no{left:6px;bottom:4px;}"
     },
     {
       "name": "Arriba / Abajo Bands",
@@ -300,9 +422,9 @@
       "name": "Classic Row",
       "kind": "card",
       "refersTo": "classic-row",
-      "description": "A saved pairing: serif ordinal, the pair as equal bands, its name below.",
-      "html": "<button class=\"ds-classic\" type=\"button\"><span class=\"ds-classic__no\">1</span><span class=\"ds-classic__bands\"><span style=\"--c:#1F2A44\"></span><span style=\"--c:#C19A6B\"></span></span><span class=\"ds-classic__name\">Azul marino + Camel</span></button>",
-      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-classic{display:grid;grid-template-columns:2.25rem 1fr;align-items:center;gap:12px;width:320px;padding:12px 18px 12px 12px;border:0;border-radius:0;background:var(--stock);text-align:left;cursor:pointer;font-family:var(--sans);color:var(--ink);}.ds-classic__no{font:400 1.25rem/1 var(--serif);color:var(--ink-2);text-align:center;}.ds-classic__bands{display:flex;gap:4px;height:48px;}.ds-classic__bands span{flex:1;background:var(--c);}.ds-classic__name{grid-column:2;margin-top:6px;font-size:0.9375rem;font-weight:500;}.ds-classic:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+      "description": "A saved pairing: serif ordinal, the colours as equal bands, its name below; hover warms to #FCFAF5; the owner's own classics carry the two-tap Quitar confirm (shown armed).",
+      "html": "<div class=\"ds-item\"><button class=\"ds-classic\" type=\"button\"><span class=\"ds-classic__no\">1</span><span class=\"ds-classic__bands\"><span style=\"--c:#1F2A44\"></span><span style=\"--c:#C19A6B\"></span></span><span class=\"ds-classic__name\">Azul marino + Camel</span></button><button class=\"ds-remove ds-is-armed\" type=\"button\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M5 5l10 10M15 5L5 15\"/></svg>Confirmar</button></div>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-item{position:relative;width:340px;}.ds-classic{display:grid;grid-template-columns:2.25rem 1fr;align-items:center;gap:12px;width:100%;padding:12px 18px 12px 12px;border:0;border-radius:0;background:var(--stock);text-align:left;cursor:pointer;font-family:var(--sans);color:var(--ink);transition:background-color 160ms;}.ds-classic:hover{background:#FCFAF5;}.ds-classic__no{font:400 1.25rem/1 var(--serif);color:var(--ink-2);text-align:center;}.ds-classic__bands{display:flex;gap:4px;height:48px;}.ds-classic__bands span{flex:1;background:var(--c);}.ds-classic__name{grid-column:2;margin-top:6px;padding-right:116px;font-size:0.9375rem;font-weight:500;}.ds-classic:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-remove{position:absolute;bottom:10px;right:18px;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border:1px solid var(--rule-strong);border-radius:0;background:var(--stock);font:500 0.8125rem/1.25 var(--sans);color:var(--ink-2);cursor:pointer;}.ds-remove:hover{border-color:var(--ink);color:var(--ink);}.ds-remove.ds-is-armed{border-color:var(--alert);color:var(--alert);}.ds-remove svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}.ds-remove:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
     },
     {
       "name": "Free Colour Picker",
@@ -311,13 +433,37 @@
       "description": "Native colour input shaped as a square band with a filete, labelled below.",
       "html": "<label class=\"ds-free\"><input type=\"color\" value=\"#1F2A44\"><span>Color libre</span></label>",
       "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-free{display:grid;justify-items:start;gap:6px;cursor:pointer;font:600 0.8125rem/1.25 var(--sans);color:var(--ink);}.ds-free input{width:76px;height:52px;padding:0;border:0;background:none;cursor:pointer;}.ds-free input::-webkit-color-swatch-wrapper{padding:0;}.ds-free input::-webkit-color-swatch{border:0;border-radius:0;box-shadow:inset 0 0 0 1px var(--rule);}.ds-free input::-moz-color-swatch{border:0;border-radius:0;}.ds-free input:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}"
+    },
+    {
+      "name": "Adder Form",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "Disclosure row with a turning plus, then a stock form: 1rem text field with the error directly under it (aria-invalid, rust border), square checkboxes, solid submit and Cancelar link.",
+      "html": "<button class=\"ds-adder\" type=\"button\" aria-expanded=\"true\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 4v12M4 10h12\"/></svg>Añadir un color a la carta</button><form class=\"ds-form\" novalidate><label class=\"ds-field\"><span class=\"ds-field__label\">Nombre</span><input type=\"text\" placeholder=\"Teja\" aria-invalid=\"true\"></label><p class=\"ds-error\" role=\"alert\">Ponle un nombre al color.</p><label class=\"ds-check\"><input type=\"checkbox\"><span>Es un neutro <small>(combina con casi todo)</small></span></label><label class=\"ds-check\"><input type=\"checkbox\" checked><span>Lo tengo</span></label><div class=\"ds-actions\"><button class=\"ds-solid\" type=\"button\">Añadir a la carta</button><button class=\"ds-link\" type=\"button\">Cancelar</button></div></form>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-adder{display:flex;align-items:center;gap:10px;width:360px;min-height:52px;padding:0;border:0;border-top:1px solid var(--rule);background:none;font:600 0.9375rem/1.5 var(--sans);color:var(--ink);text-align:left;cursor:pointer;}.ds-adder svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;transition:transform 240ms var(--ease-out);}.ds-adder[aria-expanded=\"true\"] svg{transform:rotate(45deg);}.ds-adder:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-form{display:grid;gap:14px;width:320px;padding:16px 20px 18px;background:var(--stock);font-family:var(--sans);color:var(--ink);}.ds-field{display:grid;gap:6px;}.ds-field__label{font-size:0.8125rem;font-weight:600;}.ds-field__label small{font-weight:400;color:var(--ink-2);font-size:inherit;}.ds-field input{width:100%;min-height:44px;padding:0 12px;border:1px solid var(--rule-strong);border-radius:0;background:var(--field);font:400 1rem/1.5 var(--sans);color:var(--ink);-webkit-appearance:none;appearance:none;box-sizing:border-box;}.ds-field input::placeholder{color:var(--ink-3);}.ds-field input:focus-visible{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink);}.ds-field input[aria-invalid=\"true\"]{border-color:var(--alert);box-shadow:inset 0 0 0 1px var(--alert);}.ds-error{margin:-6px 0 0;font-size:0.875rem;font-weight:500;color:var(--alert);}.ds-check{display:flex;align-items:center;gap:10px;min-height:44px;font-size:0.9375rem;cursor:pointer;}.ds-check input{flex:none;width:20px;height:20px;margin:0;border:1px solid var(--rule-strong);border-radius:0;background:var(--field) no-repeat center/14px;-webkit-appearance:none;appearance:none;cursor:pointer;}.ds-check input:checked{border-color:var(--ink);background-color:var(--ink);background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%23F8F4EC' stroke-width='2.25'/%3E%3C/svg%3E\");}.ds-check input:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}.ds-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;}.ds-solid{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--ink);border-radius:0;background:var(--ink);color:var(--stock);font:500 0.875rem/1.5 var(--sans);cursor:pointer;transition:background-color 160ms;}.ds-solid:hover{background:var(--ink-press);}.ds-solid:active{transform:translateY(1px);}.ds-solid:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-link{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;font:500 0.875rem/1.5 var(--sans);color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;cursor:pointer;}.ds-link:hover{text-decoration-thickness:2px;}.ds-link:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-check small{font-weight:400;color:var(--ink-2);font-size:inherit;}"
+    },
+    {
+      "name": "Band Picker",
+      "kind": "custom",
+      "refersTo": "band-picker",
+      "description": "New combination: the card as small bands (chosen ones ringed), then a preview strip of the chosen colours and a summary line.",
+      "html": "<div class=\"ds-wrap\"><p class=\"ds-label\">Elige de 2 a 4 colores</p><div class=\"ds-picker\"><button class=\"ds-band\" style=\"--c:#1F2A44;--on:#F8F4EC\" aria-pressed=\"true\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">03</span></span><span class=\"ds-band__name\">Azul marino</span></button><button class=\"ds-band\" style=\"--c:#C19A6B;--on:#2A2420\" aria-pressed=\"true\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">13</span></span><span class=\"ds-band__name\">Camel</span></button><button class=\"ds-band\" style=\"--c:#6D1F2E;--on:#F8F4EC\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">08</span></span><span class=\"ds-band__name\">Burdeos</span></button><button class=\"ds-band ds-is-pale\" style=\"--c:#F6F1E3;--on:#2A2420\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">16</span></span><span class=\"ds-band__name\">Marfil</span></button><button class=\"ds-band\" style=\"--c:#B5603C;--on:#F8F4EC\" aria-pressed=\"false\"><span class=\"ds-band__field\"><span class=\"ds-band__no\">19</span></span><span class=\"ds-band__name\">Teja</span></button></div><div class=\"ds-preview\"><span style=\"--c:#1F2A44\"></span><span style=\"--c:#C19A6B\"></span></div><p class=\"ds-summary\">Azul marino + Camel</p></div>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-band{display:block;width:100%;padding:0;border:0;background:none;text-align:left;cursor:pointer;font-family:var(--sans);font-variant-numeric:tabular-nums;}.ds-band__field{position:relative;display:block;height:52px;background:var(--c);}.ds-is-pale .ds-band__field{box-shadow:inset 0 0 0 1px var(--rule);}.ds-band__no{position:absolute;left:6px;bottom:4px;font-size:0.6875rem;font-weight:500;line-height:1;color:var(--on);}.ds-band__name{display:block;margin-top:6px;font-size:0.75rem;line-height:1.25;color:var(--ink);}.ds-band[aria-pressed=\"true\"] .ds-band__field{box-shadow:inset 0 0 0 3px var(--c),inset 0 0 0 4.5px var(--on);}.ds-band[aria-pressed=\"true\"] .ds-band__no{left:10px;bottom:9px;}.ds-band__owned{position:absolute;top:5px;right:5px;width:12px;height:12px;fill:none;stroke:var(--on);stroke-width:2;}.ds-band:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-wrap{display:grid;gap:14px;width:340px;padding:16px 20px 18px;background:var(--stock);font-family:var(--sans);color:var(--ink);}.ds-label{margin:0;font-size:0.8125rem;font-weight:600;}.ds-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:10px 4px;align-items:start;}.ds-picker .ds-band__field{height:40px;}.ds-picker .ds-band__name{font-size:0.6875rem;}.ds-preview{display:flex;gap:4px;height:40px;}.ds-preview span{flex:1;background:var(--c);}.ds-summary{margin:0;font-size:0.875rem;color:var(--ink-2);}"
+    },
+    {
+      "name": "Filter Empty State",
+      "kind": "card",
+      "refersTo": "empty-state",
+      "description": "When Solo lo que tengo leaves nothing: serif title, what to do, and the way out as actions.",
+      "html": "<div class=\"ds-empty\"><p class=\"ds-empty__title\">Aún no has marcado nada de tu armario.</p><p class=\"ds-empty__text\">Marca los colores que tienes y aquí verás solo lo que puedes ponerte ya.</p><div class=\"ds-empty__actions\"><button class=\"ds-button ds-small\" type=\"button\">Marcar mi armario</button><button class=\"ds-link\" type=\"button\">Ver todas las sugerencias</button></div></div>",
+      "css": ":host{--ground:#EEE7DA;--stock:#F8F4EC;--ink:#2A2420;--ink-2:#6B5D50;--ink-3:#73665A;--ink-press:#3D342E;--field:#FFFDF8;--alert:#8E2A20;--rule:rgba(42,36,32,.16);--rule-strong:rgba(42,36,32,.32);--gilt:#7A5C17;--mannequin:#DDD3C3;--ease-out:cubic-bezier(0.16,1,0.3,1);--serif:\"Gloock\",\"Iowan Old Style\",Georgia,serif;--sans:\"Figtree\",system-ui,-apple-system,\"Segoe UI\",sans-serif;} .ds-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border:1px solid var(--ink);border-radius:0;background:transparent;color:var(--ink);font:500 0.875rem/1.5 var(--sans);cursor:pointer;transition:background-color 160ms,color 160ms;}.ds-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}.ds-button:hover{background:var(--ink);color:var(--stock);}.ds-button:active{transform:translateY(1px);}.ds-button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-link{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;font:500 0.875rem/1.5 var(--sans);color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;cursor:pointer;}.ds-link:hover{text-decoration-thickness:2px;}.ds-link:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}.ds-empty{width:360px;padding:18px 20px 16px;background:var(--stock);font-family:var(--sans);color:var(--ink);}.ds-empty__title{margin:0;font:400 1.25rem/1.2 var(--serif);}.ds-empty__text{margin:6px 0 0;font-size:0.875rem;color:var(--ink-2);max-width:44ch;}.ds-empty__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:14px;}.ds-small{min-height:44px;padding:0 14px;}"
     }
   ],
   "narrative": {
     "northStar": "The Mercer's Shade Card",
-    "overview": "Swatch is printed, not rendered. The screen is a sheet of bone card stock with lighter card panels laid on it, printed in one sepia ink, with a single gilt reserved for the owner's classics. Every garment colour is a flat, square-cornered band with its shade number (Nº 01 to 18) printed in small tabular figures on the band itself, filed by family the way a thread card is. Choosing a colour pulls its companions into matching strips; the colour field is the control, and nothing around it is allowed to tint, shade or frame it.\n\nDensity is that of a reference card: tight 4px gutters between bands, generous 40px breathing between blocks, hierarchy carried by type scale alone (a large Gloock serif against small Figtree UI text) rather than by weight, colour or chrome. State is a printed mark inside the cell, never a lift or glow: a ring for the selected band, a ✓ stroke for owned colours, a ★ in gilt for a classic. Motion is mechanical and short: an underline that draws, strips that slide 6px into place, and a real vertical-axis flip when top and bottom trade places on the figure.\n\nThe world rejects the category default of round colour dots on white cards with drop shadows and a bottom sheet.",
+    "overview": "Swatch is printed, not rendered. The screen is a sheet of bone card stock with lighter card panels laid on it, printed in one sepia ink, with a single gilt reserved for the owner's classics and a rust reserved for errors and destructive confirmations. Every garment colour is a flat, square-cornered band with its shade number (Nº 01 to 18 for the base card, 19 and up for the owner's own colours) printed in small tabular figures on the band itself, filed by family the way a thread card is. Choosing a colour pulls its companions into matching strips; the colour field is the control, and nothing around it is allowed to tint, shade or frame it.\n\nDensity is that of a reference card: tight 4px gutters between bands, generous 40px breathing between blocks, hierarchy carried by type scale alone (a large Gloock serif against small Figtree UI text) rather than by weight, colour or chrome. State is a printed mark inside the cell, never a lift or glow: a ring for the selected band, a ✓ stroke for owned colours, a ★ in gilt for a classic, an ink frame round the whole card while the wardrobe is being marked. Motion is mechanical and short: an underline that draws, strips that slide 6px into place, and a real vertical-axis flip when top and bottom trade places on the figure.\n\nThe world rejects the category default of round colour dots on white cards with drop shadows and a bottom sheet.",
     "keyCharacteristics": [
-      "Bone ground, lighter stock panels, one sepia ink, one gilt.",
+      "Bone ground, lighter stock panels, one sepia ink, one gilt, one rust for errors.",
       "Flat bands, zero radius, no drop shadows; inset hairlines only where a pale swatch would vanish.",
       "Shade numbers printed on the band in the band's own contrasting ink.",
       "Serif display for names and headings, sans for everything operable.",
@@ -326,7 +472,7 @@
     "rules": [
       {
         "name": "The Colour Is Content Rule",
-        "body": "Garment colours appear only inside bands, strips, the silhouette and the 60-30-10 bar. The chrome is ground, stock, ink and rule; nothing else.",
+        "body": "Garment colours appear only inside bands, strips, the silhouette and the 60-30-10 bar. The chrome is ground, stock, field, ink and rule, with rust for errors; nothing else.",
         "section": "colors"
       },
       {
@@ -337,6 +483,11 @@
       {
         "name": "The Printed-On Ink Rule",
         "body": "Text on a band is set in whichever of ink or stock has the higher contrast against that band, computed per colour (the `--on` value). Never pick band text colour by hand.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rust Is Words Rule",
+        "body": "Rust is printed as text and line only (error copy, an invalid field's border, an armed confirm's text and border). It never fills a surface, and it means \"something is wrong or about to be deleted\", nothing else.",
         "section": "colors"
       },
       {
@@ -363,12 +514,21 @@
         "name": "The Square Card Rule",
         "body": "Radius is 0 everywhere in the interface. A round swatch is the category default this world refuses.",
         "section": "shapes"
+      },
+      {
+        "name": "The Ring Means Chosen Rule",
+        "body": "The inset ring is only ever \"this one is selected\"; ownership is only ever the ✓. Never let one stand for the other.",
+        "section": "components"
       }
     ],
     "dos": [
       "Do print every colour as a flat, square band with its shade number on it, and always set its name next to it.",
       "Do compute band ink per colour (ink or stock, whichever contrasts more) and add the inset 1px rule filete when a swatch is pale.",
       "Do show state as a mark inside the cell: the inset ring for selected, a stroked ✓ for owned, a gilt ★ for a classic.",
+      "Do confirm destructive actions with a second tap on the same control, armed in rust text and border for 3.5s.",
+      "Do print a form error directly under its field, in rust, with the field marked aria-invalid.",
+      "Do set text typed into fields at 1rem.",
+      "Do give the owner's own colours the next fixed shade number (19 and up) and file them in a family or \"Otros\".",
       "Do keep bands in a group 4px apart and separate blocks by 40px.",
       "Do keep touch targets at least 44px tall.",
       "Do honour reduced motion: every transition and animation collapses to 1ms."
@@ -376,9 +536,10 @@
     "donts": [
       "Don't round any corner of the interface (radius 0px everywhere).",
       "Don't cast drop shadows or lift surfaces; inset printed lines are the only shadow syntax.",
-      "Don't use gilt for anything but the owner's classics.",
+      "Don't use gilt for anything but the owner's classics, or rust for anything but errors and armed confirms; rust never fills.",
       "Don't put garment colours into chrome (backgrounds, borders, text).",
-      "Don't set a serif in anything but weight 400, or use emoji or font glyphs for marks; ★, ✓ and icons are inline SVG."
+      "Don't show ownership with the ring or selection with the ✓.",
+      "Don't set a serif in anything but weight 400, or use emoji or font glyphs for marks; ★, ✓ and icons are drawn SVG."
     ]
   }
 }

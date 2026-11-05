@@ -24,6 +24,10 @@
   --rule: rgba(42, 36, 32, 0.16);
   --rule-strong: rgba(42, 36, 32, 0.32);
   --gilt: #7A5C17;        /* dorado impreso, solo para ★ */
+  --ink-press: #3D342E;   /* tinta llena al pasar por encima */
+  --ink-3: #73665A;       /* texto de ejemplo en los campos */
+  --field: #FFFDF8;       /* fondo de los campos de texto */
+  --alert: #8E2A20;       /* errores y confirmaciones de borrado */
   --mannequin: #DDD3C3;
   --mannequin-2: #B9AC98;
 
@@ -237,10 +241,49 @@ main { padding: 16px var(--pad) 48px; }
   color: var(--ink-2);
 }
 
-.stage__verdict.is-classic {
+#stage-verdict.is-classic {
   font-weight: 600;
   color: var(--gilt);
 }
+
+.stage__actions {
+  display: grid;
+  gap: 0;
+}
+
+.stage__actions .button { width: 100%; }
+
+/* Lo tengo: siempre contorno; el estado es la marca ✓ impresa, no un bloque de tinta */
+/* Casilla impresa: vacía si no lo tienes, con ✓ si lo tienes */
+.own-box rect { stroke-width: 1.25; }
+.own-box path { opacity: 0; stroke-width: 2.25; }
+.button.button--toggle[aria-pressed="true"] .own-box path { opacity: 1; }
+.button.button--toggle[aria-pressed="true"] { font-weight: 600; }
+
+.button.button--small { min-height: 44px; margin-top: 0; padding: 0 14px; }
+.button.button--solid { background: var(--ink); color: var(--stock); padding: 0 18px; margin-top: 0; }
+.button.button--solid:hover { background: var(--ink-press); }
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link:hover { text-decoration-thickness: 2px; }
+.link[hidden] { display: none; }
+.link--quiet { margin-top: 6px; font-size: 0.8125rem; color: var(--ink-2); }
+.link.is-armed { color: var(--alert); }
 
 .button {
   display: inline-flex;
@@ -367,6 +410,7 @@ main { padding: 16px var(--pad) 48px; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
   gap: 12px var(--gap);
+  align-items: start;
 }
 
 .group--classics .band__field { height: 72px; }
@@ -397,13 +441,17 @@ main { padding: 16px var(--pad) 48px; }
 
 .carta__row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--gap);
+  gap: 6px;
   align-items: start;
 }
 
+.carta__cells {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px var(--gap);
+}
+
 .carta__family {
-  grid-column: 1 / -1;
   padding-top: 2px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -418,8 +466,8 @@ main { padding: 16px var(--pad) 48px; }
 }
 
 @media (min-width: 560px) {
-  .carta__row { grid-template-columns: 5.5rem repeat(5, 1fr); }
-  .carta__family { grid-column: auto; padding-top: 4px; }
+  .carta__row { grid-template-columns: 5.5rem 1fr; gap: var(--gap); }
+  .carta__family { padding-top: 4px; }
   .carta .band__name { min-height: 0; }
 }
 
@@ -500,6 +548,39 @@ main { padding: 16px var(--pad) 48px; }
   gap: 10px;
 }
 
+.classics__item { position: relative; }
+.classics__item.is-custom .classic__name,
+.classics__item.is-custom .classic__note { padding-right: 116px; }
+
+.classic__remove {
+  position: absolute;
+  bottom: 10px;
+  right: clamp(12px, 3.5vw, 18px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--rule-strong);
+  background: var(--stock);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.classic__remove:hover { border-color: var(--ink); color: var(--ink); }
+.classic__remove.is-armed { border-color: var(--alert); color: var(--alert); }
+
+.classic__remove-icon {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
 .classic {
   display: grid;
   grid-template-columns: 2.25rem 1fr;
@@ -548,6 +629,220 @@ main { padding: 16px var(--pad) 48px; }
   color: var(--ink-2);
 }
 
+/* ───────── Fase 2: interruptor "Solo lo que tengo" ───────── */
+
+.block__head--split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.switch__track {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  box-shadow: inset 0 0 0 1px var(--ink);
+  transition: background-color 200ms var(--ease-out);
+}
+
+.switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: var(--ink);
+  transition: transform 220ms var(--ease-out), background-color 200ms;
+}
+
+.switch[aria-checked="true"] .switch__track { background: var(--ink); }
+.switch[aria-checked="true"] .switch__thumb { transform: translateX(18px); background: var(--stock); }
+
+/* Estado vacío del filtro */
+.empty {
+  padding: 18px clamp(14px, 4vw, 20px) 16px;
+  background: var(--stock);
+}
+
+.empty__title { font: 400 1.25rem/1.2 var(--serif); }
+.empty__text { margin-top: 6px; font-size: 0.875rem; color: var(--ink-2); max-width: 44ch; }
+.empty__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 14px; }
+
+/* Modo "Marcar mi armario": la carta se enmarca en tinta y el aro marca lo que tienes */
+.carta.is-armario { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.carta.is-armario .band__owned { width: 16px; height: 16px; stroke-width: 2.5; }
+/* En este modo el aro no aparece: el aro significa "elegido", la ✓ significa "lo tengo" */
+.carta.is-armario .band[aria-pressed="true"] .band__field { box-shadow: none; }
+.carta.is-armario .band.is-pale[aria-pressed="true"] .band__field { box-shadow: inset 0 0 0 1px var(--rule); }
+.carta.is-armario .band[aria-pressed="true"] .band__no { left: 6px; bottom: 4px; }
+
+/* ───────── Fase 2: añadir colores y combinaciones ───────── */
+
+.adder { margin-top: 18px; border-top: 1px solid var(--rule); }
+.adder--classics { margin: 0 0 18px; border-top: 0; border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+
+.adder__toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.adder__toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  transition: transform 240ms var(--ease-out);
+}
+
+.adder__toggle[aria-expanded="true"] svg { transform: rotate(45deg); }
+
+.form {
+  display: grid;
+  gap: 14px;
+  padding: 16px clamp(14px, 4vw, 20px) 18px;
+  margin-bottom: 14px;
+  background: var(--stock);
+}
+
+.form[hidden] { display: none; }
+
+.form__swatch {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.field { display: grid; gap: 6px; }
+
+.field__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.field__label small, .check small { font-weight: 400; color: var(--ink-2); font-size: inherit; }
+
+.field input[type="text"],
+.field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: var(--field);
+  font: inherit;
+  font-size: 1rem; /* evita el zoom automático en iOS */
+  color: var(--ink);
+  caret-color: var(--ink);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field select {
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 8l5 5 5-5' fill='none' stroke='%232A2420' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+}
+
+.field input::placeholder { color: var(--ink-3); }
+.field input:focus-visible, .field select:focus-visible { outline-offset: 0; border-color: var(--ink); }
+.field input[aria-invalid="true"] { border-color: var(--alert); box-shadow: inset 0 0 0 1px var(--alert); }
+#new-color-error { margin-top: -6px; }
+
+.field--color input {
+  width: 76px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.field--color input::-webkit-color-swatch-wrapper { padding: 0; }
+.field--color input::-webkit-color-swatch { border: 0; border-radius: 0; box-shadow: inset 0 0 0 1px var(--rule); }
+.field--color input::-moz-color-swatch { border: 0; border-radius: 0; }
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.check input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: var(--field) no-repeat center / 14px;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.check input:checked {
+  border-color: var(--ink);
+  background-color: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%23F8F4EC' stroke-width='2.25'/%3E%3C/svg%3E");
+}
+
+.check input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.form__error:empty { display: none; }
+.form__error { font-size: 0.875rem; font-weight: 500; color: var(--alert); }
+
+.form__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+
+.form__summary { font-size: 0.875rem; color: var(--ink-2); }
+
+.picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: 10px var(--gap);
+  align-items: start;
+}
+
+.picker .band__field { height: 40px; }
+.picker .band__name { font-size: 0.6875rem; }
+
+.classic__bands--preview { height: 40px; }
+.classic__bands--preview[hidden] { display: none; }
+
+.free__result p { margin: 0; }
+
 /* ───────── Pantallas anchas: figura fija a la izquierda ───────── */
 
 @media (min-width: 900px) {
@@ -577,6 +872,8 @@ main { padding: 16px var(--pad) 48px; }
 
   .figure { width: min(100%, 200px); }
   .stage__tabs { width: 100%; text-align: left; }
+  .stage__actions { display: flex; justify-content: center; gap: 0 8px; }
+  .stage__actions .button { width: auto; }
   .workbench { margin-top: 0; }
   .panel--clasicos { max-width: 720px; }
 }
