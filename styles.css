@@ -845,6 +845,59 @@ main { padding: 16px var(--pad) 48px; }
 
 /* ───────── Pantallas anchas: figura fija a la izquierda ───────── */
 
+/* ───────── Móvil y tableta: la figura se queda fija mientras la carta se desplaza ───────── */
+
+@media (max-width: 899.98px) and (min-height: 561px) {
+  .panel--combinar .stage {
+    position: sticky;
+    top: var(--mast-h, 57px);
+    z-index: 5;
+    grid-template-columns: clamp(76px, 22vw, 104px) 1fr;
+    gap: 14px;
+    padding: 12px 14px;
+    /* Paspartú del color del fondo: tapa lo que pasa por los lados y por debajo de la tarjeta */
+    box-shadow: 0 0 0 var(--pad) var(--ground);
+  }
+
+  .panel--combinar .silhouette { max-height: 176px; }
+  .panel--combinar .stage__info { max-width: 460px; }
+  .stage__name { font-size: clamp(1.625rem, 7.5vw, 2.25rem); }
+  .stage__pair { display: none; }   /* las bandas Arriba / Abajo ya nombran la pareja */
+  .stage__tabs { margin-top: 10px; }
+  .tab-band { padding: 7px 9px 6px; }
+  .stage__verdict { min-height: 0; margin-top: 6px; font-size: 0.8125rem; }
+  .stage__verdict .link { min-height: 32px; }
+
+  .stage__actions {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .stage__actions .button {
+    justify-content: center;
+    margin-top: 0;
+    padding: 0 8px;
+    gap: 6px;
+  }
+
+  .stage__actions .extra {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .link--quiet { min-height: 32px; margin-top: 2px; }
+
+  .workbench { margin-top: calc(var(--pad) + 20px); }
+
+  /* Al saltar a una sección, que no quede escondida bajo la figura */
+  .block__title { scroll-margin-top: calc(var(--mast-h, 57px) + var(--stage-h, 260px) + var(--pad) + 8px); }
+}
+
 @media (min-width: 900px) {
   main {
     max-width: 1180px;

@@ -1,6 +1,6 @@
 /* Swatch · service worker: precarga la app y la sirve sin conexión.
    Sube CACHE_VERSION cada vez que cambies algún archivo de la app. */
-const CACHE_VERSION = "swatch-v4";
+const CACHE_VERSION = "swatch-v5";
 
 const APP_SHELL = [
   "./",

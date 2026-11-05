@@ -1005,6 +1005,17 @@
   if (!state.pair) state.pair = firstSuggestion(state.base);
   renderAll();
   renderClassics();
+  // Alturas reales de la cabecera y de la figura fija, para el sticky y los saltos de sección
+  if ("ResizeObserver" in window) {
+    const root = document.documentElement.style;
+    const ro = new ResizeObserver(() => {
+      root.setProperty("--mast-h", $(".masthead").offsetHeight + "px");
+      root.setProperty("--stage-h", $(".stage").offsetHeight + "px");
+    });
+    ro.observe($(".masthead"));
+    ro.observe($(".stage"));
+  }
+
   // Las transiciones de color y la entrada de las tiras solo a partir del primer pintado
   requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("is-ready")));
 
