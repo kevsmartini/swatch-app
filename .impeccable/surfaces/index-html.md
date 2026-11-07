@@ -7,7 +7,7 @@ related_targets: []
 
 # Surface: Swatch app (index.html)
 
-Mode: Operate. Single-screen mobile-first PWA with two tabs (Combinar, Mis clásicos). Audience: the owner, at home, getting dressed with one garment in hand. Task: pick a colour → see grouped suggestions → preview top/bottom on a silhouette. Build path: code-led.
+Mode: Operate. Single-screen mobile-first PWA with three tabs (Combinar, Clásicos, Conjuntos). Audience: the owner, at home, getting dressed with one garment in hand. Task: pick a colour → see grouped suggestions → preview top/bottom on a silhouette. Build path: code-led.
 
 ## Direction contract
 
@@ -17,7 +17,7 @@ OWN-WORLD: Bone card ground (#EEE7DA), lighter card stock panels, sepia printing
 
 STORY: The owner sees their garment colour on a figure, knows instantly which of their own classics pair with it, then scans neutrals, tone-on-tone, complementary and analogous groups, and taps one to try it on the figure.
 
-FIRST VIEWPORT: Header: serif "Swatch" left, two text tabs right. Stage card: SVG silhouette (≈120px wide) left; right, shade number + family small caps, colour name in large serif, "con <pair>", ★ classic badge, Invertir button. Below: matching strips by group, then the full shade card grid (6 columns, whole cells), and a "Color libre" picker row. 60-30-10 note at the end.
+FIRST VIEWPORT: Header: serif "Swatch" left, three text tabs right. Stage card: SVG silhouette (≈120px wide) left; right, shade number + family small caps, colour name in large serif, "con <pair>", ★ classic badge, Invertir button, and a "Guardar este conjunto" link. Below: matching strips by group, then the full shade card grid (6 columns, whole cells), a "Color libre" picker row and the photo sampler (tap the garment in a photo; nearest card colour goes on the figure). Conjuntos tab: saved named outfits as rows with a mini figure, filtered by occasion and season. 60-30-10 note at the end.
 
 FORM: Mercer's thread shade card, candidate 6 of 7 on the ordered list. seed:d2a8e478474950a8
 

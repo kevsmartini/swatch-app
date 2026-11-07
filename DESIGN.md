@@ -210,6 +210,31 @@ components:
   classic-remove-armed:
     backgroundColor: "{colors.stock}"
     textColor: "{colors.alert}"
+  filter-option:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-2}"
+    typography: "{typography.hint}"
+    padding: "0 6px"
+    height: "44px"
+  filter-option-selected:
+    textColor: "{colors.ink}"
+  outfit-row:
+    backgroundColor: "{colors.stock}"
+    rounded: "{rounded.none}"
+    padding: "12px clamp(12px, 3.5vw, 18px) 12px 14px"
+  outfit-row-hover:
+    backgroundColor: "#FCFAF5"
+  photo-panel:
+    backgroundColor: "{colors.stock}"
+    rounded: "{rounded.none}"
+    padding: "14px clamp(12px, 3.5vw, 20px) 8px"
+  photo-reticle:
+    rounded: "{rounded.none}"
+    size: "30px"
+  photo-compare:
+    rounded: "{rounded.none}"
+    height: "52px"
+    typography: "{typography.label-card}"
 ---
 
 # Design System: Swatch
@@ -277,7 +302,7 @@ The 18 garment colours (Azul marino, Camel, Burdeos and the rest) and the owner'
 - **Display** (Gloock 400, clamp 2.125rem to 3.25rem, 0.98, -0.02em, balanced wrap): the chosen colour's name on the stage. One per screen.
 - **Wordmark** (Gloock 400, 1.75rem, 1): "Swatch" in the masthead.
 - **Headline** (Gloock 400, 1.5rem, 1.15): block titles such as "La carta", "Mis clásicos", "La regla 60-30-10".
-- **Numeral** (Gloock 400, 1.25rem): the ordinal of each classic row.
+- **Numeral** (Gloock 400, 1.25rem): the ordinal of each classic row, and the name of each saved outfit (balanced wrap, 1.2).
 - **Title** (Figtree 600, 0.9375rem): suggestion group titles; Figtree 500 at the same size for tabs and classic names.
 - **Body** (Figtree 400, 15px, 1.5, tabular figures): running text, max 60ch.
 - **Hint** (Figtree 400, 0.875rem, ink-2): the line under each block title, the stage verdict, the free-colour result (max 34ch).
@@ -295,13 +320,15 @@ The filter empty state's title uses Gloock 400 at 1.25rem/1.2, the numeral size.
 
 ## Layout
 
-Mobile-first single column. Page inset is fluid (clamp 16px to 28px) and shared by masthead and main. The masthead is sticky on bone with a hairline under it: wordmark left on the baseline, text tabs right.
+Mobile-first single column. Page inset is fluid (clamp 16px to 28px) and shared by masthead and main. The masthead is sticky on bone with a hairline under it: wordmark left on the baseline, three text tabs right (Combinar, Clásicos, Conjuntos). Below 420px the tabs tighten (7px side padding, no gap) so all three stay on the wordmark's line down to 360px; narrower than that the tab row wraps under the wordmark, right-aligned.
 
 Below 900px (on screens taller than 560px) the stage is sticky under the masthead in a compact form: the figure at 92–124px wide and up to 224px tall (the SVG viewBox is cropped to the drawing, 22 12 156 374, so the figure fills its column), no "con …" line (the Arriba/Abajo bands already name the pair), and Lo tengo / Invertir side by side in two equal columns. A ground-coloured mat (a zero-offset spread in --ground, never a visible shadow) hides content scrolling past its sides and underneath, so the owner always sees the outfit while browsing the card. From 900px the stage becomes the sticky left column. The Combinar panel stacks the stage card, then a workbench of blocks 40px apart (suggestions, the shade card with the free-colour row, the 60-30-10 note). Inside the stage the figure takes about a third (minmax 104px, 34%) beside the name column. Suggestion strips are auto-fill grids of bands at least 76px wide, with 4px between columns and 12px between rows. The shade card is one row per family: five equal band columns, with the family label spanning the row on phones and becoming a 5.5rem leading column from 560px. Band names reserve two lines on phones so every row stays the same height. A family row only prints when it has members; the "Otros" row, last, holds the owner's own colours that fit no family.
 
 Block headings that carry a control (the "Solo lo que tengo" switch, "Marcar mi armario") split title left and control right, bottom-aligned, wrapping beneath on narrow screens. Each adder sits under its block behind a hairline: a 52px disclosure row, then the form as a stock panel with 14px between fields. The combination picker is an auto-fill grid of small bands at least 52px wide, 4px apart.
 
-From 900px, main caps at 1180px centred; Combinar becomes two columns (stage 320 to 400px, then the workbench, 48px gap) and the stage turns sticky (top 92px), centred, with the figure up to 200px wide. Mis clásicos caps at 720px.
+From 900px, main caps at 1180px centred; Combinar becomes two columns (stage 320 to 400px, then the workbench, 48px gap) and the stage turns sticky (top 92px), centred, with the figure up to 200px wide. Clásicos and Conjuntos cap at 720px.
+
+The stage carries one more line under its actions: the "Guardar este conjunto" link (0.8125rem, drawn 32px tall in the compact sticky stage with a 44px hit area from a ::before, centred from 900px). It fills the slack beside the figure's legs, so the compact stage does not grow. The photo sampler sits in La carta under the Color libre row, before the colour adder.
 
 **The Band Gap Rule.** Bands that belong together sit 4px apart, never more; space larger than that means a different group.
 
@@ -310,7 +337,8 @@ From 900px, main caps at 1180px centred; Combinar becomes two columns (stage 320
 Flat. Depth is paper laid on paper: lighter stock panels on the bone ground, with no drop shadow anywhere. The only `box-shadow` values in the system are inset printed lines inside a cell, which are marks, not elevation.
 
 ### Shadow Vocabulary
-- **Pale filete** (`box-shadow: inset 0 0 0 1px var(--rule)`): on bands, Arriba/Abajo bands, classic bands, the colour input and the 60-30-10 bar, whenever a pale swatch would disappear into the stock.
+- **Pale filete** (`box-shadow: inset 0 0 0 1px var(--rule)`): on bands, Arriba/Abajo bands, classic bands, the photo compare strip, the colour input and the 60-30-10 bar, whenever a pale swatch would disappear into the stock.
+- **Reticle** (`border: 1.5px solid var(--ink)` plus `box-shadow: inset 0 0 0 1.5px var(--stock)`): the square sight on a photo; ink outside, stock inside, so it reads on any picture.
 - **Selected ring** (`box-shadow: inset 0 0 0 3px var(--c), inset 0 0 0 4.5px var(--on)`): the selected band. A 1.5px ring in the band's own contrasting ink, inset 3px from the edge.
 - **Armario frame** (`box-shadow: inset 0 0 0 1.5px var(--ink)`): the whole shade card while the wardrobe is being marked.
 - **Switch track** (`box-shadow: inset 0 0 0 1px var(--ink)`): the outline of the square switch track.
@@ -396,8 +424,21 @@ When "Solo lo que tengo" leaves nothing to suggest: a stock panel with a Gloock 
 ### Band Picker (new combination)
 The whole card offered as small bands (40px fields, names at 0.6875rem) in an auto-fill grid, 2 to 4 to choose; a chosen band shows the selected ring. Under it a preview strip prints the chosen colours as equal flex bands 40px tall with 4px between (the classic row's bands, shorter), hidden until something is chosen, followed by an ink-2 summary line naming the chosen colours.
 
+### Photo Sampler (Sacar el color de una foto)
+- **Trigger:** the outline button with an 18px stroked camera, wrapping a visually hidden file input (`accept="image/*"`, no `capture`, so the phone offers camera or gallery). Focus rings the whole label. After a photo it reads "Elegir otra foto".
+- **Panel:** a stock panel: an ink-2 hint ("Toca la prenda en la foto. La foto no se guarda."), the photo on a ground mat, fitted to the column and to at most half the viewport height (220 to 520px), then the result and a quiet "Cerrar la foto" link. The image is drawn to a canvas at 1200px on its long side and never stored.
+- **Sampling:** a tap (or Enter / arrow keys, Shift for bigger steps) places the reticle; the colour is the average of a small square (1.2% of the short side) so the weave of the fabric does not mislead. The nearest card colour immediately becomes the base on the figure, like Color libre.
+- **Compare strip:** two equal flex bands 52px tall, 4px apart: the sampled colour captioned "En la foto", and the matched card band captioned "Nº 13 · Camel", captions printed bottom-left in each band's own ink. Under it: "Se parece a **Camel**. Ya está en la figura." and, when the sample is far from every card colour, the "Añadir este color a la carta" link (the new colour is recorded with source "photo").
+- **Errors:** a non-image or undecodable file prints a rust form error under the trigger.
+
+### Outfits (Conjuntos)
+- **Saving:** a disclosure "Guardar el conjunto de la figura" (also opened by the stage link and the empty state). The form shows what will be saved: a 52px mini silhouette beside the Arriba/Abajo bands and an ink-2 note pointing back to Combinar to change it. Then Nombre (optional; the fallback is "Azul marino con camel"), Ocasión and Temporada as checkbox grids (auto-fill, 112px minimum, legend in the form label style with the rule in ink-2: "ninguna = cualquiera", "ninguna = todo el año"). An active filter pre-ticks its tag in a fresh form.
+- **Outfit row:** a stock row: a 44px mini silhouette (the stage figure cloned, painted with the outfit), then the name in Gloock 1.25rem, the colours line in ink 0.8125rem ("Camel arriba, azul marino abajo", or "Negro de arriba abajo"), a gilt ★ before the name when the pair is one of the owner's classics, and a foot with the ink-2 tags line ("Trabajo · Otoño, Invierno"; "Cualquier ocasión · Todo el año" when untagged) and the Quitar two-tap confirm. The name is the button; its ::after covers the row (the focus ring draws round the whole row), and Quitar sits above it in the flow. Hover warms the row to #FCFAF5. Tapping loads top and bottom onto the figure and returns to Combinar. Newest first; a just-saved row slides in 6px.
+- **Filters:** shown whenever at least one outfit exists: two radio groups (Ocasión, Temporada), legend in Figtree 600 0.75rem ink-2, options as bare text (Figtree 500 0.875rem, ink-2, 44px tall) with the tab's 1.5px ink underline drawn in from the centre on the chosen one; the first option of each is "Todas". The radios are visually hidden native inputs, so arrow keys work and focus prints a 2px ink outline round the word. An outfit with no tag in a dimension matches every option of it. While filtering, an ink-2 count reads "Ves 1 de 3 conjuntos."
+- **Empty states:** the Filter Empty State panel: "Aún no has guardado ningún conjunto." with the small "Guardar el de la figura" button (hidden while the form is open), and "Ningún conjunto para trabajo en verano." with the "Ver todos los conjuntos" link.
+
 ### Silhouette
-An inline SVG figure in mannequin tones whose top and bottom garments are hard halves filled with the chosen colours, each stroked in rule-strong. Fills cross-fade over 320ms. Invertir closes both garments on their vertical axis (scaleX to 0, 180ms ease-in) and reopens them swapped (260ms ease-out).
+An inline SVG figure in mannequin tones whose top and bottom garments are hard halves filled with the chosen colours, each stroked in rule-strong. Mini copies (outfit rows, the save form) are clones of the same drawing with ids stripped, never a second drawing. Fills cross-fade over 320ms. Invertir closes both garments on their vertical axis (scaleX to 0, 180ms ease-in) and reopens them swapped (260ms ease-out).
 
 ## Do's and Don'ts
 

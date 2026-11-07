@@ -22,7 +22,8 @@
     <h1 class="wordmark">Swatch</h1>
     <nav class="tabs" role="tablist" aria-label="Secciones">
       <button class="tab" role="tab" id="tab-combinar" aria-controls="panel-combinar" aria-selected="true">Combinar</button>
-      <button class="tab" role="tab" id="tab-clasicos" aria-controls="panel-clasicos" aria-selected="false" tabindex="-1">Mis clásicos</button>
+      <button class="tab" role="tab" id="tab-clasicos" aria-controls="panel-clasicos" aria-selected="false" tabindex="-1">Clásicos</button>
+      <button class="tab" role="tab" id="tab-conjuntos" aria-controls="panel-conjuntos" aria-selected="false" tabindex="-1">Conjuntos</button>
     </nav>
   </header>
 
@@ -66,6 +67,7 @@
               <span>Invertir<span class="extra"> arriba y abajo</span></span>
             </button>
           </div>
+          <button class="link stage__save" id="save-outfit" type="button">Guardar este conjunto</button>
           <button class="link link--quiet" id="delete-color" type="button" hidden>Eliminar este color de la carta</button>
         </div>
       </section>
@@ -103,6 +105,31 @@
             <div class="free__result" aria-live="polite">
               <p id="free-result">¿Tu prenda no está en la carta? Elige su color y te digo a cuál se parece.</p>
               <button class="link" id="free-add" type="button" hidden>Añadir este color a la carta</button>
+            </div>
+          </div>
+
+          <div class="photo">
+            <label class="button photo__pick">
+              <input type="file" id="photo-input" class="visually-hidden" accept="image/*">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.75 6.25h3.5l1.5-2.5h4.5l1.5 2.5h3.5v10H2.75z"/><path d="M13.25 10.75a3.25 3.25 0 1 1-6.5 0 3.25 3.25 0 0 1 6.5 0z"/></svg>
+              <span id="photo-pick-label">Sacar el color de una foto</span>
+            </label>
+            <p class="form__error" id="photo-error" role="alert"></p>
+            <div class="photo__panel" id="photo-panel" hidden>
+              <p class="photo__hint" id="photo-hint">Toca la prenda en la foto. La foto no se guarda.</p>
+              <div class="photo__frame">
+                <canvas id="photo-canvas" role="application" tabindex="0" aria-describedby="photo-hint" aria-label="Tu foto. Toca la prenda para sacar su color; con las flechas mueves la mira."></canvas>
+                <span class="photo__reticle" id="photo-reticle" aria-hidden="true" hidden></span>
+              </div>
+              <div class="photo__result" id="photo-result" hidden>
+                <div class="photo__compare" aria-hidden="true">
+                  <span class="photo__swatch" id="photo-sample"><span class="photo__cap">En la foto</span></span>
+                  <span class="photo__swatch" id="photo-match"><span class="photo__cap" id="photo-match-cap"></span></span>
+                </div>
+                <p class="photo__text" id="photo-text" aria-live="polite"></p>
+                <button class="link" id="photo-add" type="button" hidden>Añadir este color a la carta</button>
+              </div>
+              <button class="link link--quiet" id="photo-close" type="button">Cerrar la foto</button>
             </div>
           </div>
 
@@ -176,6 +203,60 @@
       </div>
 
       <ol id="classics" class="classics"></ol>
+    </section>
+
+    <section id="panel-conjuntos" class="panel panel--conjuntos" role="tabpanel" aria-labelledby="tab-conjuntos" hidden>
+      <div class="block__head">
+        <h2 class="block__title">Mis conjuntos</h2>
+        <p class="block__hint">Lo que te pones, con nombre, ocasión y temporada. Toca uno para verlo en la figura.</p>
+      </div>
+
+      <div class="adder adder--classics">
+        <button class="adder__toggle" id="add-outfit-toggle" type="button" aria-expanded="false" aria-controls="add-outfit-form">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+          Guardar el conjunto de la figura
+        </button>
+        <form class="form" id="add-outfit-form" tabindex="-1" aria-label="Guardar el conjunto de la figura" hidden novalidate>
+          <div class="draft">
+            <span class="draft__figure" id="outfit-draft-figure" aria-hidden="true"></span>
+            <div class="draft__info">
+              <p class="tab-band" id="draft-top"><span class="tab-band__pos">Arriba</span><span class="tab-band__name" id="draft-top-name"></span></p>
+              <p class="tab-band" id="draft-bottom"><span class="tab-band__pos">Abajo</span><span class="tab-band__name" id="draft-bottom-name"></span></p>
+              <p class="draft__note">Es lo que tienes ahora en la figura. Para cambiarlo, ve a <button class="link link--inline" type="button" id="draft-go-combinar">Combinar</button>.</p>
+            </div>
+          </div>
+          <label class="field">
+            <span class="field__label">Nombre <small>(opcional)</small></span>
+            <input type="text" id="new-outfit-name" maxlength="32" autocomplete="off" placeholder="Lunes de oficina">
+          </label>
+          <fieldset class="choices">
+            <legend class="field__label">Ocasión <small>(ninguna = cualquiera)</small></legend>
+            <div class="choices__list" id="new-outfit-occasions"></div>
+          </fieldset>
+          <fieldset class="choices">
+            <legend class="field__label">Temporada <small>(ninguna = todo el año)</small></legend>
+            <div class="choices__list" id="new-outfit-seasons"></div>
+          </fieldset>
+          <div class="form__actions">
+            <button class="button button--solid" type="submit">Guardar conjunto</button>
+            <button class="link" type="button" id="add-outfit-cancel">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="filters" id="outfit-filters" hidden>
+        <fieldset class="filter">
+          <legend class="filter__label">Ocasión</legend>
+          <div class="filter__options" id="filter-occasion"></div>
+        </fieldset>
+        <fieldset class="filter">
+          <legend class="filter__label">Temporada</legend>
+          <div class="filter__options" id="filter-season"></div>
+        </fieldset>
+        <p class="filters__count" id="outfit-count" aria-live="polite"></p>
+      </div>
+
+      <ol id="outfits" class="outfits"></ol>
     </section>
   </main>
 

@@ -209,7 +209,7 @@
   }
 
   // Devuelve { color } o { error } con un mensaje para mostrar
-  function addColor({ name, hex, family, neutral, owned }) {
+  function addColor({ name, hex, family, neutral, owned, source }) {
     const clean = name.trim().replace(/\s+/g, " ");
     if (!clean) return { error: "Ponle un nombre al color." };
     if (palette().some((c) => normalizeName(c.name) === normalizeName(clean))) {
@@ -225,7 +225,7 @@
       family: FAMILIES.some((f) => f.id === family) ? family : "otros",
       custom: true,
       no,
-      source: "manual",
+      source: source === "photo" ? "photo" : "manual",
     };
     store.customColors.push(color);
     if (owned) store.owned.push(color.id);
@@ -268,6 +268,45 @@
   function deleteClassic(id) {
     store.customClassics = store.customClassics.filter((cl) => cl.id !== id);
     saveStore();
+  }
+
+  /* ───────── Fase 3: conjuntos guardados ───────── */
+
+  const nameOf = (list, id) => (list.find((x) => x.id === id) || {}).name;
+
+  function addOutfit({ name, top, bottom, occasions, seasons }) {
+    if (!byId(top) || !byId(bottom)) return { error: "Ese conjunto tiene un color que ya no está en la carta." };
+    const clean = (name || "").trim().replace(/\s+/g, " ");
+    const outfit = {
+      id: newId("o-"),
+      name: clean || byId(top).name + " con " + byId(bottom).name.toLocaleLowerCase("es"),
+      top,
+      bottom,
+      occasions: OCCASIONS.map((o) => o.id).filter((id) => occasions.indexOf(id) !== -1),
+      seasons: SEASONS.map((x) => x.id).filter((id) => seasons.indexOf(id) !== -1),
+      createdAt: Date.now(),
+    };
+    store.outfits.unshift(outfit);
+    saveStore();
+    return { outfit };
+  }
+
+  function deleteOutfit(id) {
+    store.outfits = store.outfits.filter((o) => o.id !== id);
+    saveStore();
+  }
+
+  // Sin etiquetas de ocasión = vale para cualquiera; sin temporada = todo el año
+  function outfitPasses(o) {
+    const { occasion, season } = store.filters;
+    if (occasion && o.occasions.length && o.occasions.indexOf(occasion) === -1) return false;
+    if (season && o.seasons.length && o.seasons.indexOf(season) === -1) return false;
+    return true;
+  }
+
+  function validOutfits() {
+    return store.outfits.filter((o) => o && byId(o.top) && byId(o.bottom))
+      .map((o) => ({ ...o, occasions: Array.isArray(o.occasions) ? o.occasions : [], seasons: Array.isArray(o.seasons) ? o.seasons : [] }));
   }
 
   /* ───────── Color: conversiones y medidas ───────── */
@@ -321,6 +360,8 @@
     const y = hexToRgb(b);
     return Math.sqrt((x.r - y.r) ** 2 + (x.g - y.g) ** 2 + (x.b - y.b) ** 2);
   }
+
+  const toHex = (r, g, b) => "#" + [r, g, b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("").toUpperCase();
 
   function nearestColor(hex) {
     let best = null;
@@ -431,7 +472,18 @@
     swapped: false,
     armario: false,        // modo "Marcar mi armario" en la carta
     classicDraft: [],      // colores elegidos en el formulario de nueva combinación
+    freshOutfit: null,     // el conjunto recién guardado, para marcarlo en la lista
   };
+
+  // Lo que hay ahora en la figura, arriba y abajo
+  function current() {
+    const base = byId(state.base);
+    const pair = state.pair ? byId(state.pair) : null;
+    return {
+      top: state.swapped && pair ? pair : base,
+      bottom: state.swapped && pair ? base : pair || base,
+    };
+  }
 
   if (store.last && byId(store.last.base)) {
     state.base = store.last.base;
@@ -590,11 +642,29 @@
     return flat.find((c) => !c.neutral) || flat[0] || null;
   }
 
+  function paintTabBand(node, c) {
+    node.style.setProperty("--c", c.hex);
+    node.style.setProperty("--on", inkOn(c.hex));
+    node.classList.toggle("is-pale", isPale(c.hex));
+    node.querySelector(".tab-band__name").textContent = "Nº " + shadeNo(c.id) + " · " + c.name;
+  }
+
+  // Copia pequeña de la figura con otros colores (para la lista de conjuntos)
+  function miniFigure(top, bottom) {
+    const svg = $(".silhouette").cloneNode(true);
+    svg.removeAttribute("role");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("class", "silhouette silhouette--mini");
+    svg.querySelectorAll("[id]").forEach((n) => n.removeAttribute("id"));
+    svg.querySelector(".garment--top path").setAttribute("fill", top.hex);
+    svg.querySelector(".garment--bottom path").setAttribute("fill", bottom.hex);
+    return svg;
+  }
+
   function renderStage() {
     const base = byId(state.base);
     const pair = state.pair ? byId(state.pair) : null;
-    const top = state.swapped && pair ? pair : base;
-    const bottom = state.swapped && pair ? base : pair || base;
+    const { top, bottom } = current();
     $("#garment-top").setAttribute("fill", top.hex);
     $("#garment-bottom").setAttribute("fill", bottom.hex);
 
@@ -606,13 +676,8 @@
       $("#stage-pair").textContent = "Elige con qué combinarlo";
     }
 
-    [["top", top], ["bottom", bottom]].forEach(([pos, c]) => {
-      const t = $("#tab-" + pos);
-      t.style.setProperty("--c", c.hex);
-      t.style.setProperty("--on", inkOn(c.hex));
-      t.classList.toggle("is-pale", isPale(c.hex));
-      $("#tab-" + pos + "-name").textContent = "Nº " + shadeNo(c.id) + " · " + c.name;
-    });
+    paintTabBand($("#tab-top"), top);
+    paintTabBand($("#tab-bottom"), bottom);
 
     const verdict = $("#stage-verdict");
     const classic = pair && isClassicPair(base.id, pair.id);
@@ -689,7 +754,7 @@
   }
 
   /* Confirmación en dos toques: el primer toque arma el botón, el segundo ejecuta */
-  function confirmThen(btn, idleText, action) {
+  function confirmThen(btn, idleText, action, armedText) {
     if (btn.dataset.armed === "true") {
       action();
       return;
@@ -697,7 +762,7 @@
     btn.dataset.armed = "true";
     btn.classList.add("is-armed");
     const text = btn.querySelector(".classic__remove-text") || btn;
-    text.textContent = btn.classList.contains("classic__remove") ? "Confirmar" : "Toca otra vez para eliminarlo";
+    text.textContent = armedText || (btn.classList.contains("classic__remove") ? "Confirmar" : "Toca otra vez para eliminarlo");
     window.clearTimeout(btn._t);
     btn._t = window.setTimeout(() => resetConfirm(btn, idleText), 3500);
   }
@@ -709,6 +774,81 @@
     btn.classList.remove("is-armed");
     const text = btn.querySelector(".classic__remove-text") || btn;
     text.textContent = idleText;
+  }
+
+  function renderOutfits() {
+    const all = validOutfits();
+    const root = $("#outfits");
+    root.textContent = "";
+    $("#outfit-filters").hidden = !all.length;
+    syncFilterInputs();
+
+    const shown = all.filter(outfitPasses);
+    const filtered = !!(store.filters.occasion || store.filters.season);
+    $("#outfit-count").textContent = filtered
+      ? "Ves " + shown.length + " de " + all.length + (all.length === 1 ? " conjunto." : " conjuntos.")
+      : "";
+
+    if (!all.length) {
+      root.appendChild(el("li", { class: "empty" }, [
+        el("p", { class: "empty__title", text: "Aún no has guardado ningún conjunto." }),
+        el("p", { class: "empty__text", text: "Combina dos colores en la figura y guárdalo aquí con un nombre, para qué ocasión es y en qué temporada te lo pones." }),
+        el("div", { class: "empty__actions" }, [
+          el("button", { type: "button", class: "button button--small", text: "Guardar el de la figura", onclick: () => openOutfitForm() }),
+        ]),
+      ]));
+      return;
+    }
+
+    if (!shown.length) {
+      const occ = nameOf(OCCASIONS, store.filters.occasion);
+      const sea = nameOf(SEASONS, store.filters.season);
+      const what = [occ ? "para " + occ.toLocaleLowerCase("es") : "", sea ? "en " + sea.toLocaleLowerCase("es") : ""].filter(Boolean).join(" ");
+      root.appendChild(el("li", { class: "empty" }, [
+        el("p", { class: "empty__title", text: "Ningún conjunto " + what + "." }),
+        el("p", { class: "empty__text", text: "Prueba con otra ocasión o temporada, o guarda uno nuevo con esas etiquetas." }),
+        el("div", { class: "empty__actions" }, [
+          el("button", { type: "button", class: "link", text: "Ver todos los conjuntos", onclick: () => setOutfitFilter({ occasion: null, season: null }) }),
+        ]),
+      ]));
+      return;
+    }
+
+    shown.forEach((o) => {
+      const top = byId(o.top);
+      const bottom = byId(o.bottom);
+      const colors = top.id === bottom.id
+        ? top.name + " de arriba abajo"
+        : top.name + " arriba, " + bottom.name.toLocaleLowerCase("es") + " abajo";
+      const tags = (o.occasions.length ? o.occasions.map((id) => nameOf(OCCASIONS, id)).join(", ") : "Cualquier ocasión") +
+        " · " + (o.seasons.length ? o.seasons.map((id) => nameOf(SEASONS, id)).join(", ") : "Todo el año");
+      const classic = isClassicPair(top.id, bottom.id);
+      // El nombre es el botón; su ::after cubre toda la fila, y Quitar queda por encima
+      const open = el("button", {
+        type: "button",
+        class: "outfit__open",
+        "aria-label": o.name + ": " + colors + (classic ? ", uno de tus clásicos" : "") + ". " + tags + ". Ver en la figura",
+        onclick: () => loadOutfit(o),
+      }, [classic ? mark("star", "mark outfit__star") : null, o.name]);
+      const remove = el("button", {
+        type: "button",
+        class: "classic__remove",
+        "aria-label": "Quitar " + o.name + " de mis conjuntos",
+      }, [mark("cross", "classic__remove-icon"), el("span", { class: "classic__remove-text", text: "Quitar" })]);
+      remove.addEventListener("click", () => confirmThen(remove, "Quitar", () => {
+        deleteOutfit(o.id);
+        renderOutfits();
+      }));
+      root.appendChild(el("li", { class: "outfits__item" + (o.id === state.freshOutfit ? " is-fresh" : "") }, [
+        el("span", { class: "outfit__figure", "aria-hidden": "true" }, [miniFigure(top, bottom)]),
+        el("div", { class: "outfit__body" }, [
+          open,
+          el("span", { class: "outfit__colors", "aria-hidden": "true" }, [colors]),
+          el("div", { class: "outfit__foot" }, [el("span", { class: "outfit__tags", "aria-hidden": "true", text: tags }), remove]),
+        ]),
+      ]));
+    });
+    state.freshOutfit = null;
   }
 
   function renderAll() {
@@ -775,6 +915,16 @@
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   }
 
+  function loadOutfit(o) {
+    state.base = o.top;
+    state.pair = o.bottom === o.top ? null : o.bottom;
+    state.swapped = false;
+    remember();
+    renderAll();
+    activateTab("combinar");
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  }
+
   function renderAfterOwnership() {
     renderCarta();
     renderStage();
@@ -810,7 +960,10 @@
 
   /* ───────── Formulario: color nuevo ───────── */
 
-  function openColorForm(hex) {
+  let colorSource = "manual";
+
+  function openColorForm(hex, source) {
+    colorSource = source || "manual";
     const form = $("#add-color-form");
     form.hidden = false;
     $("#add-color-toggle").setAttribute("aria-expanded", "true");
@@ -846,6 +999,7 @@
       family: $("#new-color-family").value,
       neutral: $("#new-color-neutral").checked,
       owned: $("#new-color-owned").checked,
+      source: colorSource,
     });
     if (res.error) {
       setNameError(res.error);
@@ -854,6 +1008,7 @@
     }
     closeColorForm();
     $("#free-add").hidden = true;
+    $("#photo-add").hidden = true;
     renderClassicPicker();
     state.base = res.color.id;
     state.pair = firstSuggestion(res.color.id);
@@ -932,6 +1087,279 @@
     renderAll();
   }
 
+  // Al eliminar un color también caen los conjuntos y clásicos propios que lo usan: se avisa al armar
+  function deleteColorWarning(id) {
+    const outfits = store.outfits.filter((o) => o.top === id || o.bottom === id).length;
+    const classicsGone = store.customClassics.filter((cl) => cl.colors.indexOf(id) !== -1 && cl.colors.length - 1 < 2).length;
+    const parts = [];
+    if (outfits) parts.push(outfits + (outfits === 1 ? " conjunto" : " conjuntos"));
+    if (classicsGone) parts.push(classicsGone + (classicsGone === 1 ? " clásico" : " clásicos"));
+    return parts.length ? "Toca otra vez: también se quita" + (outfits + classicsGone > 1 ? "n " : " ") + parts.join(" y ") : null;
+  }
+
+  /* ───────── Fase 3: guardar un conjunto ───────── */
+
+  function choiceList(root, items, name) {
+    items.forEach((it) => {
+      root.appendChild(el("label", { class: "check" }, [
+        el("input", { type: "checkbox", name, value: it.id }),
+        el("span", { text: it.name }),
+      ]));
+    });
+  }
+
+  const checkedIn = (root) => Array.from(root.querySelectorAll("input:checked")).map((i) => i.value);
+
+  function renderOutfitDraft() {
+    const { top, bottom } = current();
+    paintTabBand($("#draft-top"), top);
+    paintTabBand($("#draft-bottom"), bottom);
+    const fig = $("#outfit-draft-figure");
+    fig.textContent = "";
+    fig.appendChild(miniFigure(top, bottom));
+  }
+
+  function openOutfitForm() {
+    const form = $("#add-outfit-form");
+    // Si hay un filtro puesto, el conjunto nuevo nace con esas etiquetas
+    if (form.hidden) {
+      form.reset();
+      [["#new-outfit-occasions", store.filters.occasion], ["#new-outfit-seasons", store.filters.season]].forEach(([sel, val]) => {
+        if (!val) return;
+        const box = $(sel).querySelector('input[value="' + val + '"]');
+        if (box) box.checked = true;
+      });
+    }
+    form.hidden = false;
+    $("#add-outfit-toggle").setAttribute("aria-expanded", "true");
+    $("#outfits").classList.add("is-drafting");
+    renderOutfitDraft();
+    // En el móvil no se abre el teclado por un campo opcional: el foco va al formulario
+    const fine = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
+    (fine ? $("#new-outfit-name") : form).focus({ preventScroll: true });
+  }
+
+  function closeOutfitForm() {
+    const form = $("#add-outfit-form");
+    form.hidden = true;
+    form.reset();
+    $("#add-outfit-toggle").setAttribute("aria-expanded", "false");
+    $("#outfits").classList.remove("is-drafting");
+  }
+
+  function onOutfitSubmit(e) {
+    e.preventDefault();
+    const { top, bottom } = current();
+    const res = addOutfit({
+      name: $("#new-outfit-name").value,
+      top: top.id,
+      bottom: bottom.id,
+      occasions: checkedIn($("#new-outfit-occasions")),
+      seasons: checkedIn($("#new-outfit-seasons")),
+    });
+    if (res.error) return;
+    closeOutfitForm();
+    state.freshOutfit = res.outfit.id;
+    // Que el recién guardado se vea aunque el filtro activo lo dejara fuera
+    if (!outfitPasses(res.outfit)) { store.filters.occasion = null; store.filters.season = null; saveStore(); }
+    renderOutfits();
+    $("#add-outfit-toggle").focus({ preventScroll: true });
+  }
+
+  function saveOutfitFromStage() {
+    activateTab("conjuntos");
+    openOutfitForm();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  /* ───────── Fase 3: filtros de ocasión y temporada ───────── */
+
+  function filterOptions(root, items, key) {
+    [{ id: "", name: "Todas" }].concat(items).forEach((it) => {
+      root.appendChild(el("label", { class: "filter__option" }, [
+        el("input", {
+          type: "radio",
+          class: "visually-hidden",
+          name: "filter-" + key,
+          value: it.id,
+          onchange: () => setOutfitFilter({ [key]: it.id || null }),
+        }),
+        el("span", { text: it.name }),
+      ]));
+    });
+  }
+
+  function syncFilterInputs() {
+    [["#filter-occasion", store.filters.occasion], ["#filter-season", store.filters.season]].forEach(([sel, val]) => {
+      $(sel).querySelectorAll("input").forEach((i) => { i.checked = i.value === (val || ""); });
+    });
+  }
+
+  function setOutfitFilter(patch) {
+    Object.assign(store.filters, patch);
+    saveStore();
+    renderOutfits();
+  }
+
+  /* ───────── Fase 3: sacar el color de una foto ───────── */
+
+  const photo = { img: null, x: 0.5, y: 0.5, placed: false, hex: null };
+
+  function onPhotoChosen(e) {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = ""; // permite volver a elegir la misma foto
+    if (!file) return;
+    $("#photo-error").textContent = "";
+    if (!/^image\//.test(file.type || "image/")) {
+      $("#photo-error").textContent = "Eso no es una imagen. Elige una foto de la prenda.";
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      drawPhoto(img);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      $("#photo-error").textContent = "No he podido abrir esa foto. Prueba con otra, mejor en JPG o PNG.";
+    };
+    img.src = url;
+  }
+
+  function drawPhoto(img) {
+    // Se reduce a 1200 px por el lado largo: de sobra para leer un color y ligera en memoria
+    const scale = Math.min(1, 1200 / Math.max(img.naturalWidth, img.naturalHeight));
+    const canvas = $("#photo-canvas");
+    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    photo.img = img;
+    photo.placed = false;
+    $("#photo-panel").hidden = false;
+    $("#photo-result").hidden = true;
+    $("#photo-reticle").hidden = true;
+    $("#photo-hint").textContent = "Toca la prenda en la foto. La foto no se guarda.";
+    $("#photo-pick-label").textContent = "Elegir otra foto";
+    fitPhoto();
+    $("#photo-panel").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
+
+  // Encaja la foto en el ancho disponible sin pasar de media pantalla de alto
+  function fitPhoto() {
+    const canvas = $("#photo-canvas");
+    if (!photo.img) return;
+    const frame = canvas.parentElement;
+    const maxW = frame.clientWidth;
+    const maxH = Math.max(220, Math.min(window.innerHeight * 0.5, 520));
+    const k = Math.min(maxW / canvas.width, maxH / canvas.height);
+    canvas.style.width = Math.round(canvas.width * k) + "px";
+    canvas.style.height = Math.round(canvas.height * k) + "px";
+    placeReticle();
+  }
+
+  function placeReticle() {
+    const r = $("#photo-reticle");
+    r.hidden = !photo.placed;
+    if (!photo.placed) return;
+    const canvas = $("#photo-canvas");
+    r.style.left = canvas.offsetLeft + photo.x * canvas.clientWidth + "px";
+    r.style.top = canvas.offsetTop + photo.y * canvas.clientHeight + "px";
+  }
+
+  function samplePhoto() {
+    const canvas = $("#photo-canvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const cx = Math.round(photo.x * (canvas.width - 1));
+    const cy = Math.round(photo.y * (canvas.height - 1));
+    // Media de un cuadradito alrededor del punto: la trama del tejido no engaña tanto como un píxel suelto
+    const rad = Math.max(2, Math.round(Math.min(canvas.width, canvas.height) * 0.012));
+    const x0 = Math.max(0, cx - rad);
+    const y0 = Math.max(0, cy - rad);
+    const w = Math.min(canvas.width, cx + rad + 1) - x0;
+    const h = Math.min(canvas.height, cy + rad + 1) - y0;
+    let data;
+    try {
+      data = ctx.getImageData(x0, y0, w, h).data;
+    } catch (err) {
+      $("#photo-error").textContent = "No he podido leer los colores de esa foto. Prueba con otra.";
+      return;
+    }
+    let r = 0, g = 0, b = 0, n = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 128) continue;
+      r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+    }
+    if (!n) return;
+    const hex = toHex(r / n, g / n, b / n);
+    photo.hex = hex;
+    placeReticle();
+
+    const match = nearestColor(hex);
+    const sample = $("#photo-sample");
+    sample.style.setProperty("--c", hex);
+    sample.style.setProperty("--on", inkOn(hex));
+    sample.classList.toggle("is-pale", isPale(hex));
+    const m = $("#photo-match");
+    m.style.setProperty("--c", match.hex);
+    m.style.setProperty("--on", inkOn(match.hex));
+    m.classList.toggle("is-pale", isPale(match.hex));
+    $("#photo-match-cap").textContent = "Nº " + shadeNo(match.id) + " · " + match.name;
+
+    const text = $("#photo-text");
+    text.textContent = "";
+    text.append("Se parece a ", el("strong", { text: match.name }), ". Ya está en la figura.");
+    $("#photo-result").hidden = false;
+    $("#photo-add").hidden = rgbDistance(hex, match.hex) < 18;
+    $("#photo-hint").textContent = "Toca otro punto para afinar. La foto no se guarda.";
+    if (match.id !== state.base) {
+      // Las sugerencias de arriba cambian de alto: que la foto no se mueva bajo el dedo
+      const before = canvas.getBoundingClientRect().top;
+      selectBase(match.id);
+      const shift = canvas.getBoundingClientRect().top - before;
+      if (Math.abs(shift) > 1) window.scrollBy(0, shift);
+    }
+  }
+
+  function onPhotoTap(e) {
+    const canvas = e.currentTarget;
+    const rect = canvas.getBoundingClientRect();
+    photo.x = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    photo.y = Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height));
+    photo.placed = true;
+    samplePhoto();
+  }
+
+  function onPhotoKey(e) {
+    const step = e.shiftKey ? 0.1 : 0.025;
+    const moves = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (moves[e.key]) {
+      e.preventDefault();
+      if (photo.placed) {
+        photo.x = Math.min(1, Math.max(0, photo.x + moves[e.key][0]));
+        photo.y = Math.min(1, Math.max(0, photo.y + moves[e.key][1]));
+      }
+      photo.placed = true;
+      samplePhoto();
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      photo.placed = true;
+      samplePhoto();
+    }
+  }
+
+  function closePhoto() {
+    photo.img = null;
+    photo.placed = false;
+    const canvas = $("#photo-canvas");
+    canvas.width = canvas.height = 0;
+    $("#photo-panel").hidden = true;
+    $("#photo-pick-label").textContent = "Sacar el color de una foto";
+    $("#photo-error").textContent = "";
+    $(".photo__pick input").focus({ preventScroll: true });
+  }
+
   /* ───────── Color libre ───────── */
 
   function onFreeColor(e) {
@@ -957,6 +1385,8 @@
       document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
       if (on && focus) t.focus();
     });
+    // El formulario de conjunto siempre enseña lo que hay ahora en la figura
+    if (name === "conjuntos" && !$("#add-outfit-form").hidden) renderOutfitDraft();
   }
 
   tabs.forEach((t, i) => {
@@ -981,7 +1411,8 @@
     remember();
     renderAll();
     renderClassics();
-  }));
+    renderOutfits();
+  }, deleteColorWarning(state.base)));
   $("#only-owned").addEventListener("click", () => setOnlyOwned(!store.filters.onlyOwned));
   $("#armario-mode").addEventListener("click", toggleArmario);
 
@@ -1000,11 +1431,29 @@
   $("#add-classic-cancel").addEventListener("click", closeClassicForm);
   $("#add-classic-form").addEventListener("submit", onClassicSubmit);
   $("#free-color").addEventListener("input", onFreeColor);
+
+  $("#save-outfit").addEventListener("click", saveOutfitFromStage);
+  choiceList($("#new-outfit-occasions"), OCCASIONS, "occasion");
+  choiceList($("#new-outfit-seasons"), SEASONS, "season");
+  filterOptions($("#filter-occasion"), OCCASIONS, "occasion");
+  filterOptions($("#filter-season"), SEASONS, "season");
+  $("#add-outfit-toggle").addEventListener("click", () => ($("#add-outfit-form").hidden ? openOutfitForm() : closeOutfitForm()));
+  $("#add-outfit-cancel").addEventListener("click", closeOutfitForm);
+  $("#add-outfit-form").addEventListener("submit", onOutfitSubmit);
+  $("#draft-go-combinar").addEventListener("click", () => activateTab("combinar", true));
+
+  $("#photo-input").addEventListener("change", onPhotoChosen);
+  $("#photo-canvas").addEventListener("click", onPhotoTap);
+  $("#photo-canvas").addEventListener("keydown", onPhotoKey);
+  $("#photo-close").addEventListener("click", closePhoto);
+  $("#photo-add").addEventListener("click", () => photo.hex && openColorForm(photo.hex, "photo"));
+  window.addEventListener("resize", () => { if (photo.img) fitPhoto(); });
   $("#free-color").value = byId(state.base).hex;
 
   if (!state.pair) state.pair = firstSuggestion(state.base);
   renderAll();
   renderClassics();
+  renderOutfits();
   // Alturas reales de la cabecera y de la figura fija, para el sticky y los saltos de sección
   if ("ResizeObserver" in window) {
     const root = document.documentElement.style;
@@ -1026,5 +1475,5 @@
   }
 
   // Punto de acceso para las fases 2 y 3 (y para depurar desde la consola)
-  window.Swatch = { FAMILIES, OCCASIONS, SEASONS, palette, classics, suggestionsFor, nearestColor, store, saveStore, addColor, addClassic, toggleOwned };
+  window.Swatch = { FAMILIES, OCCASIONS, SEASONS, palette, classics, suggestionsFor, nearestColor, store, saveStore, addColor, addClassic, addOutfit, toggleOwned };
 })();
