@@ -1241,7 +1241,6 @@
     $("#photo-result").hidden = true;
     $("#photo-reticle").hidden = true;
     $("#photo-hint").textContent = "Toca la prenda en la foto. La foto no se guarda.";
-    $("#photo-pick-label").textContent = "Elegir otra foto";
     fitPhoto();
     $("#photo-panel").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
   }
@@ -1355,7 +1354,6 @@
     const canvas = $("#photo-canvas");
     canvas.width = canvas.height = 0;
     $("#photo-panel").hidden = true;
-    $("#photo-pick-label").textContent = "Sacar el color de una foto";
     $("#photo-error").textContent = "";
     $(".photo__pick input").focus({ preventScroll: true });
   }
@@ -1442,7 +1440,9 @@
   $("#add-outfit-form").addEventListener("submit", onOutfitSubmit);
   $("#draft-go-combinar").addEventListener("click", () => activateTab("combinar", true));
 
-  $("#photo-input").addEventListener("change", onPhotoChosen);
+  // Dos entradas: la cámara trasera directa (capture) y la galería
+  $("#photo-camera").addEventListener("change", onPhotoChosen);
+  $("#photo-gallery").addEventListener("change", onPhotoChosen);
   $("#photo-canvas").addEventListener("click", onPhotoTap);
   $("#photo-canvas").addEventListener("keydown", onPhotoKey);
   $("#photo-close").addEventListener("click", closePhoto);

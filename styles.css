@@ -876,7 +876,9 @@ main { padding: 16px var(--pad) 48px; }
 
 .photo { margin-top: 14px; }
 
-.photo__pick { position: relative; margin-top: 0; }
+.photo__title { font-size: 0.8125rem; font-weight: 600; }
+.photo__picks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.photo__pick { position: relative; flex: 1 1 auto; justify-content: center; margin-top: 0; }
 .photo__pick:focus-within { outline: 2px solid var(--ink); outline-offset: 3px; }
 .photo .form__error { margin-top: 8px; }
 
@@ -1202,6 +1204,7 @@ main { padding: 16px var(--pad) 48px; }
   .panel--conjuntos { max-width: 720px; }
   .stage__save { margin: 4px auto 0; }
   .photo__panel { scroll-margin-top: 92px; }
+  .photo__pick { flex: 0 0 auto; padding: 0 18px 0 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

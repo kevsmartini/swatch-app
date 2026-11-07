@@ -109,11 +109,19 @@
           </div>
 
           <div class="photo">
-            <label class="button photo__pick">
-              <input type="file" id="photo-input" class="visually-hidden" accept="image/*">
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.75 6.25h3.5l1.5-2.5h4.5l1.5 2.5h3.5v10H2.75z"/><path d="M13.25 10.75a3.25 3.25 0 1 1-6.5 0 3.25 3.25 0 0 1 6.5 0z"/></svg>
-              <span id="photo-pick-label">Sacar el color de una foto</span>
-            </label>
+            <p class="photo__title" id="photo-title">Sacar el color de una foto</p>
+            <div class="photo__picks" role="group" aria-labelledby="photo-title">
+              <label class="button photo__pick">
+                <input type="file" id="photo-camera" class="visually-hidden" accept="image/*" capture="environment">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.75 6.25h3.5l1.5-2.5h4.5l1.5 2.5h3.5v10H2.75z"/><path d="M13.25 10.75a3.25 3.25 0 1 1-6.5 0 3.25 3.25 0 0 1 6.5 0z"/></svg>
+                <span>Hacer una foto</span>
+              </label>
+              <label class="button photo__pick">
+                <input type="file" id="photo-gallery" class="visually-hidden" accept="image/*">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.75 3.75h14.5v12.5H2.75z"/><path d="M2.75 13.25l4.5-4.5 4 4 2.5-2.5 3.5 3.5"/><path d="M13.75 7.25a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg>
+                <span>Elegir de la galería</span>
+              </label>
+            </div>
             <p class="form__error" id="photo-error" role="alert"></p>
             <div class="photo__panel" id="photo-panel" hidden>
               <p class="photo__hint" id="photo-hint">Toca la prenda en la foto. La foto no se guarda.</p>
