@@ -536,6 +536,25 @@
     ]);
   }
 
+  // Al tocar la carta se redibujan las sugerencias (encima) y la propia carta: la página
+  // cambia de alto y el botón tocado se sustituye. Se deja el color bajo el dedo y con el foco.
+  function cartaCell(id) {
+    return $("#carta [data-id=\"" + (window.CSS && CSS.escape ? CSS.escape(id) : id) + "\"]");
+  }
+
+  function holdInPlace(id, change) {
+    const old = cartaCell(id);
+    const before = old ? old.getBoundingClientRect().top : null;
+    change();
+    const cell = cartaCell(id);
+    if (!cell) return;
+    if (before !== null) {
+      const shift = cell.getBoundingClientRect().top - before;
+      if (Math.abs(shift) > 1) window.scrollBy(0, shift);
+    }
+    cell.focus({ preventScroll: true });
+  }
+
   function renderCarta() {
     const root = $("#carta");
     root.textContent = "";
@@ -549,11 +568,11 @@
         const owned = isOwned(c.id);
         cells.appendChild(band(c, state.armario ? {
           pressed: owned,
-          onClick: () => { toggleOwned(c.id); renderAfterOwnership(); },
+          onClick: () => holdInPlace(c.id, () => { toggleOwned(c.id); renderAfterOwnership(); }),
           label: c.name + (owned ? ", lo tienes" : ", no lo tienes"),
         } : {
           pressed: c.id === state.base,
-          onClick: () => selectBase(c.id),
+          onClick: () => holdInPlace(c.id, () => selectBase(c.id)),
           label: "Nº " + shadeNo(c.id) + ", " + c.name + (owned ? ", lo tienes" : ""),
         }));
       });
